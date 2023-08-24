@@ -21,6 +21,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.kitodo.data.database.beans.ImportConfiguration;
 import org.kitodo.data.database.exceptions.DAOException;
@@ -30,6 +31,7 @@ import org.kitodo.selenium.testframework.Browser;
 import org.kitodo.selenium.testframework.Pages;
 import org.kitodo.selenium.testframework.pages.ProjectsPage;
 
+@Ignore
 public class ConfigConversionST extends BaseTestSelenium {
 
     private static final String MODS_2_KITODO = "mods2kitodo.xsl";

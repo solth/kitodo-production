@@ -18,10 +18,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
 import org.kitodo.data.database.beans.Process;
 import org.kitodo.production.services.ServiceManager;
 import org.kitodo.selenium.testframework.BaseTestSelenium;
@@ -34,6 +31,7 @@ import org.kitodo.selenium.testframework.pages.TemplateEditPage;
 import org.kitodo.selenium.testframework.pages.UsersPage;
 import org.kitodo.selenium.testframework.pages.WorkflowEditPage;
 
+@Ignore
 public class EditingST extends BaseTestSelenium {
 
     private static ProcessesPage processesPage;

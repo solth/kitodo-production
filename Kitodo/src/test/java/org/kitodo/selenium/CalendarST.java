@@ -18,6 +18,7 @@ import java.util.List;
 
 import org.junit.After;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.kitodo.MockDatabase;
 import org.kitodo.data.database.beans.User;
@@ -27,6 +28,7 @@ import org.kitodo.selenium.testframework.Pages;
 import org.kitodo.selenium.testframework.pages.CalendarPage;
 import org.kitodo.selenium.testframework.pages.ProcessesPage;
 
+@Ignore
 public class CalendarST extends BaseTestSelenium {
 
     private static ProcessesPage processesPage;

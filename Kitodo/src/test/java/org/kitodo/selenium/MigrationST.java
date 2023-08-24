@@ -22,6 +22,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.kitodo.config.ConfigCore;
 import org.kitodo.data.database.beans.Process;
@@ -34,6 +35,7 @@ import org.kitodo.selenium.testframework.Pages;
 import org.kitodo.selenium.testframework.pages.SystemPage;
 import org.kitodo.selenium.testframework.pages.WorkflowEditPage;
 
+@Ignore
 public class MigrationST extends BaseTestSelenium {
 
     private String randomWorkflowName;

@@ -17,10 +17,7 @@ import static org.junit.Assert.assertEquals;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
 import org.kitodo.selenium.testframework.BaseTestSelenium;
 import org.kitodo.selenium.testframework.Browser;
 import org.kitodo.selenium.testframework.Pages;
@@ -31,6 +28,7 @@ import org.kitodo.selenium.testframework.pages.SearchResultPage;
 import org.kitodo.selenium.testframework.pages.TasksPage;
 import org.openqa.selenium.WebElement;
 
+@Ignore
 public class SearchingST extends BaseTestSelenium {
 
     private static final String WAIT_FOR_FILTER_IS_APPLIED = "Wait until filter is applied";

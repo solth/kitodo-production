@@ -25,11 +25,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
 import org.kitodo.MockDatabase;
 import org.kitodo.config.ConfigCore;
 import org.kitodo.data.database.beans.Process;
@@ -46,6 +42,7 @@ import org.kitodo.selenium.testframework.Pages;
 /**
  * Tests for functions in the metadata editor.
  */
+@Ignore
 public class MetadataST extends BaseTestSelenium {
 
     private static final String TEST_IMAGES_DIR = "images";

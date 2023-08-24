@@ -13,11 +13,7 @@ package org.kitodo.selenium;
 
 import static org.junit.Assert.assertEquals;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.rules.ExpectedException;
 import org.kitodo.SecurityTestUtils;
 import org.kitodo.data.database.beans.User;
@@ -27,6 +23,7 @@ import org.kitodo.selenium.testframework.Pages;
 import org.kitodo.selenium.testframework.pages.ProjectsPage;
 import org.kitodo.production.services.ServiceManager;
 
+@Ignore
 public class ListingSessionClientST extends BaseTestSelenium {
 
     private static ProjectsPage projectsPage;

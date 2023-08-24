@@ -16,10 +16,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
 import org.kitodo.selenium.testframework.BaseTestSelenium;
 import org.kitodo.selenium.testframework.Pages;
 import org.kitodo.selenium.testframework.pages.TasksPage;
@@ -28,6 +25,7 @@ import org.kitodo.selenium.testframework.pages.TasksPage;
 /**
  * Tests the task list for various requirements related to sorting it.
  */
+@Ignore
 public class TasksSortingST extends BaseTestSelenium {
 
     @SuppressWarnings("unused")

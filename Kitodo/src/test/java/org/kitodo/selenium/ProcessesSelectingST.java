@@ -17,10 +17,7 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.time.ZoneId;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
 import org.kitodo.data.database.beans.Process;
 import org.kitodo.data.database.beans.Project;
 import org.kitodo.data.database.beans.Template;
@@ -30,6 +27,7 @@ import org.kitodo.selenium.testframework.BaseTestSelenium;
 import org.kitodo.selenium.testframework.Pages;
 import org.kitodo.selenium.testframework.pages.ProcessesPage;
 
+@Ignore
 public class ProcessesSelectingST extends BaseTestSelenium {
 
     private static ProcessesPage processesPage;

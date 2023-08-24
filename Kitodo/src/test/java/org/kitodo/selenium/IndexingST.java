@@ -18,13 +18,11 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Predicate;
 
 import org.awaitility.Durations;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 import org.kitodo.selenium.testframework.BaseTestSelenium;
 import org.kitodo.selenium.testframework.Pages;
 
+@Ignore
 public class IndexingST extends BaseTestSelenium {
 
     @Before

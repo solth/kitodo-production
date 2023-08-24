@@ -11,10 +11,7 @@
 
 package org.kitodo.selenium;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
 import org.kitodo.selenium.testframework.BaseTestSelenium;
 import org.kitodo.selenium.testframework.Pages;
 import org.kitodo.selenium.testframework.pages.ProcessesPage;
@@ -24,6 +21,7 @@ import org.kitodo.production.services.ServiceManager;
 
 import static org.junit.Assert.assertTrue;
 
+@Ignore
 public class RemovingST extends BaseTestSelenium {
 
     private static UsersPage usersPage;

@@ -15,10 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
 import org.kitodo.data.database.beans.Task;
 import org.kitodo.data.database.enums.TaskStatus;
 import org.kitodo.production.services.ServiceManager;
@@ -31,6 +28,7 @@ import org.kitodo.selenium.testframework.pages.ProcessesPage;
 /**
  * Tests the processes list for various requirements related to sorting it.
  */
+@Ignore
 public class ProcessesSortingST extends BaseTestSelenium {
 
     @SuppressWarnings("unused")

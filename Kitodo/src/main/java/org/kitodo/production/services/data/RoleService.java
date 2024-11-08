@@ -69,9 +69,6 @@ public class RoleService extends ClientSearchDatabaseService<Role, RoleDAO> {
 
     @Override
     public Long countResults(Map filters) throws DAOException {
-        if (ServiceManager.getSecurityAccessService().hasAuthorityGlobalToViewRoleList()) {
-            return countDatabaseRows();
-        }
         if (ServiceManager.getSecurityAccessService().hasAuthorityToViewRoleList()) {
             return countDatabaseRows("SELECT COUNT(*) FROM Role AS r INNER JOIN r.client AS c WITH c.id = :clientId",
                     Collections.singletonMap(CLIENT_ID, ServiceManager.getUserService().getSessionClientId()));
@@ -86,11 +83,7 @@ public class RoleService extends ClientSearchDatabaseService<Role, RoleDAO> {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public List<Role> loadData(int first, int pageSize, String sortField, SortOrder sortOrder, Map filters) {
-        if (ServiceManager.getSecurityAccessService().hasAuthorityGlobalToViewRoleList()) {
-            return dao.getByQuery("FROM Role"  + getSort(sortField, sortOrder), filters, first, pageSize);
-        }
         if (ServiceManager.getSecurityAccessService().hasAuthorityToViewRoleList()) {
             return dao.getByQuery("SELECT r FROM Role AS r INNER JOIN r.client AS c WITH c.id = :clientId"
                             + getSort(sortField, sortOrder),

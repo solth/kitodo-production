@@ -17,70 +17,73 @@
         xmlns:h="http://xmlns.jcp.org/jsf/html"
         xmlns:p="http://primefaces.org/ui">
     <!--@elvariable id="item" type="org.kitodo.production.dto.RoleDTO"-->
-    <p:dataTable var="item"
-                 id="rolesTable"
-                 styleClass="default-layout"
-                 value="#{RoleForm.lazyDTOModel}"
-                 first="#{RoleForm.firstRow}"
-                 lazy="true"
-                 paginator="true"
-                 resizableColumns="true"
-                 liveResize="true"
-                 sortBy="#{item.title}"
-                 rows="#{LoginForm.loggedUser.tableSize}"
-                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {JumpToPageInput} {NextPageLink} {LastPageLink}"
-                 currentPageReportTemplate="#{msgs.currentPageReportTemplate}"
-                 paginatorPosition="bottom">
-        <p:ajax event="page"
-                listener="#{RoleForm.onPageChange}"/>
-        <p:column headerText="#{msgs.role}"
-                  sortBy="#{item.title}"
-                  rendered="#{UserForm.showColumn('role.role')}">
-            <h:outputText value="#{item.title}"
-                          title="#{item.title}"/>
-        </p:column>
-        <p:column headerText="#{msgs.client}"
-                  sortBy="#{item.client.name}"
-                  rendered="#{UserForm.showColumn('role.client')}">
-            <h:outputText value="#{item.client.name}"
-                          title="#{item.client.name}"/>
-        </p:column>
-        <p:column headerText="#{msgs.actions}"
-                  width="70"
-                  resizable="false"
-                  styleClass="actionsColumn">
-            <h:form id="actionForm">
-                <h:link id="viewRole"
-                        outcome="roleEdit"
-                        styleClass="action"
-                        title="#{msgs.view}"
-                        rendered="#{SecurityAccessController.hasAuthorityToViewRole() and not SecurityAccessController.hasAuthorityToEditRole()}">
-                    <f:param name="id" value="#{item.id}" />
-                    <i class="fa fa-eye fa-lg"/>
-                </h:link>
+    <h:form id="rolesTableForm">
+        <p:dataTable var="item"
+                     id="rolesTable"
+                     widgetVar="rolesTable"
+                     styleClass="default-layout"
+                     value="#{RoleForm.lazyDTOModel}"
+                     first="#{RoleForm.firstRow}"
+                     lazy="true"
+                     paginator="true"
+                     resizableColumns="true"
+                     liveResize="true"
+                     sortBy="#{item.title}"
+                     rows="#{LoginForm.loggedUser.tableSize}"
+                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {JumpToPageInput} {NextPageLink} {LastPageLink}"
+                     currentPageReportTemplate="#{msgs.currentPageReportTemplate}"
+                     paginatorPosition="bottom">
+            <p:ajax event="page"
+                    listener="#{RoleForm.onPageChange}"/>
+            <p:column headerText="#{msgs.role}"
+                      sortBy="#{item.title}"
+                      rendered="#{UserForm.showColumn('role.role')}">
+                <h:outputText value="#{item.title}"
+                              title="#{item.title}"/>
+            </p:column>
+            <p:column headerText="#{msgs.client}"
+                      sortBy="#{item.client.name}"
+                      rendered="#{UserForm.showColumn('role.client')}">
+                <h:outputText value="#{item.client.name}"
+                              title="#{item.client.name}"/>
+            </p:column>
+            <p:column headerText="#{msgs.actions}"
+                      width="70"
+                      resizable="false"
+                      styleClass="actionsColumn">
+                <h:form id="actionForm">
+                    <h:link id="viewRole"
+                            outcome="roleEdit"
+                            styleClass="action"
+                            title="#{msgs.view}"
+                            rendered="#{SecurityAccessController.hasAuthorityToViewRole() and not SecurityAccessController.hasAuthorityToEditRole()}">
+                        <f:param name="id" value="#{item.id}" />
+                        <i class="fa fa-eye fa-lg"/>
+                    </h:link>
 
-                <h:link id="editRole"
-                        outcome="roleEdit"
-                        styleClass="action"
-                        title="#{msgs.edit}"
-                        rendered="#{SecurityAccessController.hasAuthorityToEditRole()}">
-                    <f:param name="id" value="#{item.id}" />
-                    <i class="fa fa-pencil-square-o fa-lg"/>
-                </h:link>
+                    <h:link id="editRole"
+                            outcome="roleEdit"
+                            styleClass="action"
+                            title="#{msgs.edit}"
+                            rendered="#{SecurityAccessController.hasAuthorityToEditRole()}">
+                        <f:param name="id" value="#{item.id}" />
+                        <i class="fa fa-pencil-square-o fa-lg"/>
+                    </h:link>
 
-                <p:commandLink id="deleteRole"
-                               action="#{RoleForm.delete}"
-                               styleClass="action"
-                               title="#{msgs.delete}"
-                               rendered="#{SecurityAccessController.hasAuthorityToDeleteRole()}"
-                               update="usersTabView:rolesTable">
-                    <h:outputText><i class="fa fa-trash-o"/></h:outputText>
-                    <f:setPropertyActionListener value="#{item.id}" target="#{RoleForm.roleById}"/>
-                    <p:confirm header="#{msgs.confirmDelete}"
-                               message="#{RoleForm.formatString('confirmDeleteRole', item.title)}"
-                               icon="ui-icon-alert"/>
-                </p:commandLink>
-            </h:form>
-        </p:column>
-    </p:dataTable>
+                    <p:commandLink id="deleteRole"
+                                   action="#{RoleForm.delete}"
+                                   styleClass="action"
+                                   title="#{msgs.delete}"
+                                   rendered="#{SecurityAccessController.hasAuthorityToDeleteRole()}"
+                                   update="usersTabView:rolesTableForm:rolesTable">
+                        <h:outputText><i class="fa fa-trash-o"/></h:outputText>
+                        <f:setPropertyActionListener value="#{item.id}" target="#{RoleForm.roleById}"/>
+                        <p:confirm header="#{msgs.confirmDelete}"
+                                   message="#{RoleForm.formatString('confirmDeleteRole', item.title)}"
+                                   icon="ui-icon-alert"/>
+                    </p:commandLink>
+                </h:form>
+            </p:column>
+        </p:dataTable>
+    </h:form>
 </ui:composition>

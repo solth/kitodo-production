@@ -13,14 +13,14 @@ package org.kitodo.production.model;
 
 import static java.lang.Math.toIntExact;
 
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+
 import org.kitodo.data.database.exceptions.DAOException;
 import org.kitodo.production.services.data.RoleService;
 import org.primefaces.model.FilterMeta;
 import org.primefaces.model.SortOrder;
-
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
 
 public class LazyRoleModel extends LazyDTOModel {
 
@@ -30,10 +30,20 @@ public class LazyRoleModel extends LazyDTOModel {
         super(roleService);
     }
 
+    /**
+     * Get value of 'showRolesOfAllAvailableClients'.
+     *
+     * @return value of 'showRolesOfAllAvailableClients'
+     */
     public boolean isShowRolesOfAllAvailableClients() {
         return showRolesOfAllAvailableClients;
     }
 
+    /**
+     * Set value of 'showRolesOfAllAvailableClients'.
+     *
+     * @param showRolesOfAllAvailableClients boolean
+     */
     public void setShowRolesOfAllAvailableClients(boolean showRolesOfAllAvailableClients) {
         this.showRolesOfAllAvailableClients = showRolesOfAllAvailableClients;
     }

@@ -30,7 +30,7 @@ import org.kitodo.data.database.beans.User;
 import org.kitodo.data.database.exceptions.DAOException;
 import org.kitodo.production.enums.ObjectType;
 import org.kitodo.production.helper.Helper;
-import org.kitodo.production.model.LazyDTOModel;
+import org.kitodo.production.model.LazyRoleModel;
 import org.kitodo.production.services.ServiceManager;
 import org.primefaces.model.DualListModel;
 
@@ -47,7 +47,7 @@ public class RoleForm extends BaseForm {
      */
     public RoleForm() {
         super();
-        super.setLazyDTOModel(new LazyDTOModel(ServiceManager.getRoleService()));
+        super.setLazyDTOModel(new LazyRoleModel(ServiceManager.getRoleService()));
     }
 
     /**
@@ -233,6 +233,15 @@ public class RoleForm extends BaseForm {
      */
     public void setClientAssignableAuthorities(DualListModel<Authority> clientAuthoritiesModel) {
         setAssignableAuthorities(clientAuthoritiesModel);
+    }
+
+    public boolean isShowRolesOfAllAvailableClients() {
+        return ((LazyRoleModel)this.lazyDTOModel).isShowRolesOfAllAvailableClients();
+    }
+
+    public void setShowRolesOfAllAvailableClients(boolean showRolesOfAllAvailableClients) {
+        // FIXME: after passing "true" for the first time, subsequent "false" parameters do not update the list again!
+        ((LazyRoleModel)this.lazyDTOModel).setShowRolesOfAllAvailableClients(showRolesOfAllAvailableClients);
     }
 
     private void setAssignableAuthorities(DualListModel<Authority> authoritiesModel) {

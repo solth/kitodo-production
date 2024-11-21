@@ -472,7 +472,7 @@ public class Helper {
      * @return translated String
      */
     public static String getTranslation(String title, String... insertions) {
-        String pattern = getString(desiredLanguage(), title);
+        String pattern = getString(LocaleHelper.getCurrentLocale(), title);
         String message = pattern;
         try {
             message = MessageFormat.format(pattern, (Object[]) insertions);
@@ -503,16 +503,6 @@ public class Helper {
         }
         message = messageBuilder.toString();
         return message;
-    }
-
-    private static Locale desiredLanguage() {
-        if (Objects.nonNull(FacesContext.getCurrentInstance())) {
-            Locale desiredLanguage = FacesContext.getCurrentInstance().getViewRoot().getLocale();
-            if (Objects.nonNull(desiredLanguage)) {
-                return desiredLanguage;
-            }
-        }
-        return Locale.ENGLISH;
     }
 
     /**

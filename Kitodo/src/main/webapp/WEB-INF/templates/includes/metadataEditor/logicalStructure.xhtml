@@ -252,6 +252,22 @@
                                 metadataAccordion:logicalMetadataHeader
                                 metadataAccordion:logicalMetadataWrapperPanel
                                 galleryWrapperPanel"/>
+            <p:menuitem value="#{msgs['metadataEdit']}"
+                        rendered="#{DataEditorForm.structurePanel.selectedLogicalNodeIfSingle.data.linked}"
+                        icon="fa fa-list-alt fa-lg"
+                        styleClass="plain editLinkedMetadata"
+                        onclick="$('#loadingScreen').show()"
+                        oncomplete="$('#loadingScreen').hide()"
+                        actionListener="#{DataEditorForm.checkConditionsForOpeningLinkedProcessInMetadataEditor()}"
+                        action="#{DataEditorForm.openLinkedProcess()}"
+                        process="@this"/>
+            <p:menuitem value="#{msgs['metadataEditNewTab']}"
+                        target="_blank"
+                        url="#{DataEditorForm.getUrlOfLinkedProcess()}"
+                        rendered="#{DataEditorForm.structurePanel.selectedLogicalNodeIfSingle.data.linked}"
+                        icon="fa fa-list-alt fa-lg"
+                        styleClass="plain editLinkedMetadata"
+                        process="@this"/>
             <p:menuitem value="#{msgs.deleteMedia}"
                         rendered="#{SecurityAccessController.hasAuthorityToDeleteMedia() and DataEditorForm.structurePanel.selectedLogicalNodeIfSingle.type eq StructurePanel.VIEW_NODE_TYPE}"
                         icon="fa fa-trash fa-sm"

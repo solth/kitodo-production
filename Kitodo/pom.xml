@@ -28,6 +28,7 @@
     <properties>
         <main.basedir>${project.parent.basedir}</main.basedir>
         <maxAllowedViolations>3</maxAllowedViolations>
+        <selenium.version>4.28.1</selenium.version>
         <cargo.plugin.version>1.9.7</cargo.plugin.version>
         <jsf.projectStage>Production</jsf.projectStage>
         <myfaces.resourceMaxTimeExpires>604800000</myfaces.resourceMaxTimeExpires>
@@ -108,14 +109,17 @@
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-firefox-driver</artifactId>
+            <version>${selenium.version}</version>
         </dependency>
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-chrome-driver</artifactId>
+            <version>${selenium.version}</version>
         </dependency>
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-support</artifactId>
+            <version>${selenium.version}</version>
         </dependency>
         <dependency>
             <groupId>org.codehaus.plexus</groupId>

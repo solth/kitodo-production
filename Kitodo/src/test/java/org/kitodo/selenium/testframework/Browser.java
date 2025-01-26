@@ -13,11 +13,12 @@ package org.kitodo.selenium.testframework;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
+import java.util.Objects;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.SystemUtils;
@@ -75,7 +76,7 @@ public class Browser {
         }
 
         actions = new Actions(webDriver);
-        webDriver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        webDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         goTo("");
         webDriver.manage().window().setSize(new Dimension(1280, 1024));
     }
@@ -228,7 +229,7 @@ public class Browser {
     public static long getSelectedRowsOfTable(WebElement table) {
         return getRowsOfTable(table)
                 .stream()
-                .filter(element -> element.getAttribute("aria-selected").equals("true"))
+                .filter(element -> Objects.equals(element.getDomProperty("aria-selected"), "true"))
                 .count();
     }
 

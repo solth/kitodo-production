@@ -101,11 +101,11 @@ public class ImportingST extends BaseTestSelenium {
     public void checkDefaultValuesTest() throws Exception {
         projectsPage.createNewProcess();
         Select catalogSelectMenu = new Select(importPage.getCatalogMenu());
-        assertEquals(TestConstants.K10PLUS, catalogSelectMenu.getFirstSelectedOption().getAttribute("label"), "Wrong default catalog selected");
+        assertEquals(TestConstants.K10PLUS, catalogSelectMenu.getFirstSelectedOption().getDomProperty("label"), "Wrong default catalog selected");
 
         importPage.selectGBV();
         Select searchFieldSelectMenu = new Select(importPage.getSearchFieldMenu());
-        assertEquals(TestConstants.PPN, searchFieldSelectMenu.getFirstSelectedOption().getAttribute("label"), "Wrong default search field selected");
+        assertEquals(TestConstants.PPN, searchFieldSelectMenu.getFirstSelectedOption().getDomProperty("label"), "Wrong default search field selected");
     }
 
     /**
@@ -142,7 +142,7 @@ public class ImportingST extends BaseTestSelenium {
                 .untilAsserted(() -> assertEquals(1, processesPage.getProcessTitles().size(), "Wrong number of filtered processes"));
         processesPage.createChildProcess();
         Select templateProcessMenu = new Select(importPage.getTemplateProcessMenu());
-        assertEquals(TEST_VOLUME, templateProcessMenu.getFirstSelectedOption().getAttribute("label"), "Wrong default child import configuration selected");
+        assertEquals(TEST_VOLUME, templateProcessMenu.getFirstSelectedOption().getDomProperty("label"), "Wrong default child import configuration selected");
     }
 
     @Test
@@ -161,10 +161,10 @@ public class ImportingST extends BaseTestSelenium {
     public void checkHierarchyImport() throws Exception {
         projectsPage.createNewProcess();
         Select catalogSelectMenu = new Select(importPage.getCatalogMenu());
-        assertEquals(TestConstants.K10PLUS, catalogSelectMenu.getFirstSelectedOption().getAttribute("label"), "Wrong default catalog selected");
+        assertEquals(TestConstants.K10PLUS, catalogSelectMenu.getFirstSelectedOption().getDomProperty("label"), "Wrong default catalog selected");
         importPage.selectKalliope();
         Select searchFieldSelectMenu = new Select(importPage.getSearchFieldMenu());
-        assertEquals(TestConstants.IDENTIFIER, searchFieldSelectMenu.getFirstSelectedOption().getAttribute("label"), "Wrong default search field selected");
+        assertEquals(TestConstants.IDENTIFIER, searchFieldSelectMenu.getFirstSelectedOption().getDomProperty("label"), "Wrong default search field selected");
         importPage.enterTestSearchValue(TestConstants.KALLIOPE_PARENT_ID);
         importPage.activateChildProcessImport();
         importPage.decreaseImportDepth();

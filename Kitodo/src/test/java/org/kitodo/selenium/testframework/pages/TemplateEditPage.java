@@ -68,13 +68,13 @@ public class TemplateEditPage extends EditPage<TemplateEditPage> {
         titleInput.sendKeys(template.getTitle());
         Browser.getDriver().findElements(By.className("ui-chkbox")).get(0).click();
         clickElement(workflowSelect.findElement(By.cssSelector(CSS_SELECTOR_DROPDOWN_TRIGGER)));
-        clickElement(Browser.getDriver().findElement(By.id(workflowSelect.getAttribute("id") + "_0")));
+        clickElement(Browser.getDriver().findElement(By.id(workflowSelect.getDomProperty("id") + "_0")));
 
         clickElement(rulesetSelect.findElement(By.cssSelector(CSS_SELECTOR_DROPDOWN_TRIGGER)));
-        clickElement(Browser.getDriver().findElement(By.id(rulesetSelect.getAttribute("id") + "_1")));
+        clickElement(Browser.getDriver().findElement(By.id(rulesetSelect.getDomProperty("id") + "_1")));
 
         clickElement(docketSelect.findElement(By.cssSelector(CSS_SELECTOR_DROPDOWN_TRIGGER)));
-        clickElement(Browser.getDriver().findElement(By.id(docketSelect.getAttribute("id") + "_1")));
+        clickElement(Browser.getDriver().findElement(By.id(docketSelect.getDomProperty("id") + "_1")));
         return this;
     }
 

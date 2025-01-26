@@ -17,8 +17,10 @@ import static org.kitodo.selenium.testframework.Browser.getRowsOfTable;
 import static org.kitodo.selenium.testframework.Browser.getTableDataByColumn;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -71,7 +73,7 @@ public class SearchResultPage extends Page<SearchResultPage> {
     }
 
     public void filterByProject() {
-        WebElement projectFilter = getDriver().findElementByPartialLinkText("First");
+        WebElement projectFilter = getDriver().findElement(By.partialLinkText("First"));
         projectFilter.click();
     }
 
@@ -94,7 +96,7 @@ public class SearchResultPage extends Page<SearchResultPage> {
      */
     public void clickTitleColumnForSorting() {
         // remember aria-sort attribute of th-tag of title column
-        String previousAriaSort = searchResultTableTitleColumn.getAttribute("aria-sort");
+        String previousAriaSort = searchResultTableTitleColumn.getDomProperty("aria-sort");
 
         // click title th-tag to trigger sorting
         searchResultTableTitleColumn.click();
@@ -104,6 +106,6 @@ public class SearchResultPage extends Page<SearchResultPage> {
             .pollDelay(100, TimeUnit.MILLISECONDS)
             .atMost(10, TimeUnit.SECONDS)
             .ignoreExceptions()
-            .until(() -> !searchResultTableTitleColumn.getAttribute("aria-sort").equals(previousAriaSort));
+            .until(() -> !Objects.equals(searchResultTableTitleColumn.getDomProperty("aria-sort"), previousAriaSort));
     }
 }

@@ -125,6 +125,6 @@ public class RoleEditPage extends EditPage<RoleEditPage> {
     }
 
     public String getRoleTitle() {
-        return titleInput.getAttribute("value");
+        return titleInput.getDomProperty("value");
     }
 }

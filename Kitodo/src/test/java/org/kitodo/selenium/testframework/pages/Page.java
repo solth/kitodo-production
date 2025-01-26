@@ -15,6 +15,7 @@ import static org.awaitility.Awaitility.await;
 import static org.kitodo.selenium.testframework.Browser.getRowsOfTable;
 
 import java.io.File;
+import java.time.Duration;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Predicate;
@@ -178,12 +179,12 @@ public abstract class Page<T> {
         List<WebElement> listTabs = tabView.findElements(By.tagName("li"));
         WebElement tab = listTabs.get(index);
         await("Wait for tab to be visible").pollDelay(700, TimeUnit.MILLISECONDS)
-                .atMost(30, TimeUnit.SECONDS).until(() -> tab.isDisplayed());
+                .atMost(30, TimeUnit.SECONDS).until(tab::isDisplayed);
         tab.click();
     }
 
     /**
-     * Clicks a button which could be be stale, e.g. because of disabling and
+     * Clicks a button which could be stale, e.g. because of disabling and
      * enabling via Ajax. After click was performed, the browser waits for
      * redirecting to given url.
      *
@@ -193,7 +194,7 @@ public abstract class Page<T> {
      *            the url to which is redirected after click
      */
     protected void clickButtonAndWaitForRedirect(WebElement button, String url) {
-        WebDriverWait webDriverWait = new WebDriverWait(Browser.getDriver(), 60);
+        WebDriverWait webDriverWait = new WebDriverWait(Browser.getDriver(), Duration.ofSeconds(60));
         for (int attempt = 1; attempt < 4; attempt++) {
             try {
                 await("Wait for button clicked").pollDelay(700, TimeUnit.MILLISECONDS).atMost(10, TimeUnit.SECONDS)
@@ -205,10 +206,10 @@ public abstract class Page<T> {
                 return;
             } catch (TimeoutException e) {
                 logger.error(
-                    "Clicking on button with id " + button.getAttribute("id") + " was not successful. Retrying now.");
+                    "Clicking on button with id " + button.getDomProperty("id") + " was not successful. Retrying now.");
             }
         }
-        throw new TimeoutException("Could not access button: " + button.getAttribute("id") + "!");
+        throw new TimeoutException("Could not access button: " + button.getDomProperty("id") + "!");
     }
 
     protected void clickElement(WebElement element) {
@@ -246,7 +247,7 @@ public abstract class Page<T> {
     };
 
     Predicate<WebElement> isInputValueNotEmpty = (webElement) -> {
-        return !webElement.getAttribute("value").isEmpty();
+        return !webElement.getDomProperty("value").isEmpty();
     };
 
     Predicate<File> isFileDownloaded = (file) -> {
@@ -271,7 +272,7 @@ public abstract class Page<T> {
                 .until(() -> confirmRemoveButton.isDisplayed());
         confirmRemoveButton.click();
         Thread.sleep(Browser.getDelayAfterDelete());
-        WebDriverWait wait = new WebDriverWait(Browser.getDriver(), 60);
+        WebDriverWait wait = new WebDriverWait(Browser.getDriver(), Duration.ofSeconds(60));
         wait.until(ExpectedConditions.urlContains(getUrl()));
     }
 

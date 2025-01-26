@@ -117,11 +117,11 @@ public class ProcessFromTemplatePage extends EditPage<ProcessFromTemplatePage> {
     }
 
     public WebElement getCatalogMenu() {
-        return Browser.getDriver().findElementById(OPAC_SEARCH_FORM + ":catalogueSelectMenu_input");
+        return Browser.getDriver().findElement(By.id(OPAC_SEARCH_FORM + ":catalogueSelectMenu_input"));
     }
 
     public WebElement getSearchFieldMenu() {
-        return Browser.getDriver().findElementById(OPAC_SEARCH_FORM + ":fieldSelectMenu_input");
+        return Browser.getDriver().findElement(By.id(OPAC_SEARCH_FORM + ":fieldSelectMenu_input"));
     }
 
     /**
@@ -129,7 +129,7 @@ public class ProcessFromTemplatePage extends EditPage<ProcessFromTemplatePage> {
      * @return 'Search' button as WebElement.
      */
     public WebElement getSearchButton() {
-        return Browser.getDriver().findElementById(OPAC_SEARCH_FORM + ":performCatalogSearch");
+        return Browser.getDriver().findElement(By.id(OPAC_SEARCH_FORM + ":performCatalogSearch"));
     }
 
     /**
@@ -137,7 +137,7 @@ public class ProcessFromTemplatePage extends EditPage<ProcessFromTemplatePage> {
      * @return template process menu
      */
     public WebElement getTemplateProcessMenu() {
-        return Browser.getDriver().findElementById("searchEditForm:processSelect_input");
+        return Browser.getDriver().findElement(By.id("searchEditForm:processSelect_input"));
     }
 
     private void selectCatalog(String catalogName) throws InterruptedException {
@@ -179,7 +179,7 @@ public class ProcessFromTemplatePage extends EditPage<ProcessFromTemplatePage> {
                 .atMost(3, TimeUnit.SECONDS).ignoreExceptions()
                 .until(() -> docTypeSelect.findElement(By.cssSelector(CSS_SELECTOR_DROPDOWN_TRIGGER)).isEnabled());
         clickElement(docTypeSelect.findElement(By.cssSelector(CSS_SELECTOR_DROPDOWN_TRIGGER)));
-        clickElement(Browser.getDriver().findElement(By.id(docTypeSelect.getAttribute("id") + "_2")));
+        clickElement(Browser.getDriver().findElement(By.id(docTypeSelect.getDomProperty("id") + "_2")));
         await("Page ready").pollDelay(150, TimeUnit.MILLISECONDS).atMost(10, TimeUnit.SECONDS).ignoreExceptions()
                 .until(() -> isDisplayed.test(processFromTemplateTabView));
 
@@ -192,7 +192,7 @@ public class ProcessFromTemplatePage extends EditPage<ProcessFromTemplatePage> {
         generateTitleButton.click();
         await("Wait for title generation").pollDelay(3, TimeUnit.SECONDS).atMost(10, TimeUnit.SECONDS)
                 .ignoreExceptions().until(() -> isInputValueNotEmpty.test(processTitleInput));
-        String generatedTitle = processTitleInput.getAttribute(TestConstants.VALUE);
+        String generatedTitle = processTitleInput.getDomProperty(TestConstants.VALUE);
         save();
         return generatedTitle;
     }
@@ -218,7 +218,7 @@ public class ProcessFromTemplatePage extends EditPage<ProcessFromTemplatePage> {
                 .atMost(3, TimeUnit.SECONDS).ignoreExceptions()
                 .until(() -> docTypeSelect.findElement(By.cssSelector(CSS_SELECTOR_DROPDOWN_TRIGGER)).isEnabled());
         clickElement(docTypeSelect.findElement(By.cssSelector(CSS_SELECTOR_DROPDOWN_TRIGGER)));
-        clickElement(Browser.getDriver().findElement(By.id(docTypeSelect.getAttribute("id") + "_0")));
+        clickElement(Browser.getDriver().findElement(By.id(docTypeSelect.getDomProperty("id") + "_0")));
         await("Page ready").pollDelay(150, TimeUnit.MILLISECONDS).atMost(10, TimeUnit.SECONDS).ignoreExceptions()
                 .until(() -> isDisplayed.test(processFromTemplateTabView));
 
@@ -227,7 +227,7 @@ public class ProcessFromTemplatePage extends EditPage<ProcessFromTemplatePage> {
         generateTitleButton.click();
         await("Wait for title generation").pollDelay(3, TimeUnit.SECONDS).atMost(10, TimeUnit.SECONDS)
                 .ignoreExceptions().until(() -> isInputValueNotEmpty.test(processTitleInput));
-        final String generatedTitle = processTitleInput.getAttribute(TestConstants.VALUE);
+        final String generatedTitle = processTitleInput.getDomProperty(TestConstants.VALUE);
 
         switchToTabByIndex(1);
         searchForParentInput.sendKeys(parentProcessTitle);
@@ -235,7 +235,7 @@ public class ProcessFromTemplatePage extends EditPage<ProcessFromTemplatePage> {
         await("Wait for search").pollDelay(500, TimeUnit.MILLISECONDS).atMost(10, TimeUnit.SECONDS).ignoreExceptions()
                 .until(() -> isDisplayed.test(chooseParentSelect));
         clickElement(chooseParentSelect.findElement(By.cssSelector(CSS_SELECTOR_DROPDOWN_TRIGGER)));
-        clickElement(Browser.getDriver().findElement(By.id(chooseParentSelect.getAttribute("id") + "_1")));
+        clickElement(Browser.getDriver().findElement(By.id(chooseParentSelect.getDomProperty("id") + "_1")));
         await("Wait for tree shows").pollDelay(500, TimeUnit.MILLISECONDS).atMost(10, TimeUnit.SECONDS)
                 .ignoreExceptions().until(() -> isDisplayed.test(logicalStructureTree));
         save();
@@ -253,7 +253,7 @@ public class ProcessFromTemplatePage extends EditPage<ProcessFromTemplatePage> {
                 .atMost(3, TimeUnit.SECONDS).ignoreExceptions()
                 .until(() -> docTypeSelect.findElement(By.cssSelector(CSS_SELECTOR_DROPDOWN_TRIGGER)).isEnabled());
         clickElement(docTypeSelect.findElement(By.cssSelector(CSS_SELECTOR_DROPDOWN_TRIGGER)));
-        clickElement(Browser.getDriver().findElement(By.id(docTypeSelect.getAttribute("id") + "_1")));
+        clickElement(Browser.getDriver().findElement(By.id(docTypeSelect.getDomProperty("id") + "_1")));
         await("Page ready").pollDelay(150, TimeUnit.MILLISECONDS).atMost(10, TimeUnit.SECONDS).ignoreExceptions()
                 .until(() -> isDisplayed.test(processFromTemplateTabView));
 
@@ -272,7 +272,7 @@ public class ProcessFromTemplatePage extends EditPage<ProcessFromTemplatePage> {
         await("Wait for search").pollDelay(500, TimeUnit.MILLISECONDS).atMost(10, TimeUnit.SECONDS).ignoreExceptions()
                 .until(() -> isDisplayed.test(chooseParentSelect));
         clickElement(chooseParentSelect.findElement(By.cssSelector(CSS_SELECTOR_DROPDOWN_TRIGGER)));
-        clickElement(Browser.getDriver().findElement(By.id(chooseParentSelect.getAttribute("id") + "_1")));
+        clickElement(Browser.getDriver().findElement(By.id(chooseParentSelect.getDomProperty("id") + "_1")));
         try {
             await("Wait for error message").pollDelay(100, TimeUnit.MILLISECONDS).atMost(4, TimeUnit.SECONDS)
                     .ignoreExceptions().until(() -> isDisplayed.test(errorMessages));
@@ -308,7 +308,7 @@ public class ProcessFromTemplatePage extends EditPage<ProcessFromTemplatePage> {
         generateTitleButton.click();
         await("Wait for title generation").pollDelay(3, TimeUnit.SECONDS).atMost(10, TimeUnit.SECONDS)
                 .ignoreExceptions().until(() -> isInputValueNotEmpty.test(processTitleInput));
-        String generatedTitle = processTitleInput.getAttribute(TestConstants.VALUE);
+        String generatedTitle = processTitleInput.getDomProperty(TestConstants.VALUE);
         save();
         return generatedTitle;
     }
@@ -318,7 +318,7 @@ public class ProcessFromTemplatePage extends EditPage<ProcessFromTemplatePage> {
      * @return process title input field value
      */
     public String getProcessTitle() {
-        return processTitleInput.getAttribute(TestConstants.VALUE);
+        return processTitleInput.getDomProperty(TestConstants.VALUE);
     }
 
     /**

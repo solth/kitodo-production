@@ -247,7 +247,7 @@ public class ProjectsPage extends Page<ProjectsPage> {
         List<WebElement> rowsOfTable = getRowsOfTable(projectsTable);
         List<String> styleClasses = new ArrayList<>();
         for (WebElement row : rowsOfTable) {
-            styleClasses.add(getCellsOfRow(row).get(3).findElement(By.tagName("i")).getAttribute("class"));
+            styleClasses.add(getCellsOfRow(row).get(3).findElement(By.tagName("i")).getDomProperty("class"));
         }
         return styleClasses;
     }
@@ -318,7 +318,7 @@ public class ProjectsPage extends Page<ProjectsPage> {
         WebElement templatesTable = Browser.getDriver()
                 .findElement(By.id(PROJECTS_TABLE + ":" + index + ":projectTemplatesTable"));
         return templatesTable.findElements(By.className("expansion-list-item-title"))
-                .stream().map(e -> e.getAttribute("innerText")).collect(Collectors.toList());
+                .stream().map(e -> e.getDomProperty("innerText")).collect(Collectors.toList());
     }
 
     public List<String> getTemplateDetails() {
@@ -567,7 +567,7 @@ public class ProjectsPage extends Page<ProjectsPage> {
         await("Wait for 'Mapping file title' field to be displayed")
                 .atMost(10, TimeUnit.SECONDS).untilAsserted(() -> assertTrue(mappingFileTitle
                         .isDisplayed()));
-        return mappingFileTitle.getAttribute("value");
+        return mappingFileTitle.getDomProperty("value");
     }
 
     /**
@@ -575,7 +575,7 @@ public class ProjectsPage extends Page<ProjectsPage> {
      */
     public void selectInputFormatMods() {
         clickElement(mappingFileInputFormatMenu.findElement(By.cssSelector(CSS_SELECTOR_DROPDOWN_TRIGGER)));
-        clickElement(Browser.getDriver().findElementById(mappingFileInputFormatMenu.getAttribute("id") + "_1"));
+        clickElement(Browser.getDriver().findElement(By.id(mappingFileInputFormatMenu.getDomProperty("id") + "_1")));
     }
 
     /**
@@ -583,7 +583,7 @@ public class ProjectsPage extends Page<ProjectsPage> {
      */
     public void selectOutputFormatKitodo() {
         clickElement(mappingFileOutputFormatMenu.findElement(By.cssSelector(CSS_SELECTOR_DROPDOWN_TRIGGER)));
-        clickElement(Browser.getDriver().findElementById(mappingFileOutputFormatMenu.getAttribute("id") + "_5"));
+        clickElement(Browser.getDriver().findElement(By.id(mappingFileOutputFormatMenu.getDomProperty("id") + "_5")));
     }
 
     /**
@@ -600,7 +600,7 @@ public class ProjectsPage extends Page<ProjectsPage> {
      */
     public boolean allCatalogsImportedSuccessfully(List<String> catalogTitles) {
         for (String catalog : catalogTitles) {
-            WebElement catalogCell = Browser.getDriver().findElementById("importResultsForm:successfulImports")
+            WebElement catalogCell = Browser.getDriver().findElement(By.id("importResultsForm:successfulImports"))
                     .findElement(By.xpath(".//span[@title='" + catalog + "']"));
             if (Objects.isNull(catalogCell)) {
                 return false;
@@ -614,7 +614,7 @@ public class ProjectsPage extends Page<ProjectsPage> {
      * @return catalog configuration import error messages
      */
     public List<String> getCatalogConfigurationImportErrorsMessages() {
-        List<WebElement> errorMessages = Browser.getDriver().findElementById("importResultsForm:failedImports")
+        List<WebElement> errorMessages = Browser.getDriver().findElement(By.id("importResultsForm:failedImports"))
                 .findElements(By.xpath(".//td[@class='error-message-column']/span"));
         return errorMessages.stream().map(WebElement::getText).collect(Collectors.toList());
     }
@@ -623,7 +623,7 @@ public class ProjectsPage extends Page<ProjectsPage> {
      * Close results dialog.
      */
     public void closeResultsDialog() {
-        WebElement closeButton = Browser.getDriver().findElementById("close");
+        WebElement closeButton = Browser.getDriver().findElement(By.id("close"));
         await("Wait for 'Close' button to be displayed")
                 .atMost(3, TimeUnit.SECONDS).untilAsserted(() -> assertTrue(closeButton.isDisplayed()));
         closeButton.click();
@@ -634,7 +634,7 @@ public class ProjectsPage extends Page<ProjectsPage> {
      * @return number of ImportConfiguration entries in ImportConfiguration list
      */
     public Long getNumberOfImportConfigurations() {
-        return (long) Browser.getRowsOfTable(Browser.getDriver().findElementById(IMPORT_CONFIGURATIONS_TABLE)).size();
+        return (long) Browser.getRowsOfTable(Browser.getDriver().findElement(By.id(IMPORT_CONFIGURATIONS_TABLE))).size();
     }
 
     /**
@@ -642,7 +642,7 @@ public class ProjectsPage extends Page<ProjectsPage> {
      * @return number of MappingFile entries in MappingFile list
      */
     public Long getNumberOfMappingFiles() {
-        return (long) Browser.getRowsOfTable(Browser.getDriver().findElementById(MAPPING_FILE_TABLE)).size();
+        return (long) Browser.getRowsOfTable(Browser.getDriver().findElement(By.id(MAPPING_FILE_TABLE))).size();
     }
 
     /**
@@ -665,7 +665,7 @@ public class ProjectsPage extends Page<ProjectsPage> {
      */
     public void clickMassImportAction() {
         // click "mass import" icon
-        List<WebElement> massImportLinks = Browser.getDriver().findElementsByCssSelector(MASS_IMPORT_LINK);
+        List<WebElement> massImportLinks = Browser.getDriver().findElements(By.cssSelector(MASS_IMPORT_LINK));
         assert(!massImportLinks.isEmpty());
         WebElement massImportLink = massImportLinks.get(0);
         massImportLink.click();

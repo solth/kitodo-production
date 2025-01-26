@@ -131,25 +131,25 @@ public class LdapGroupEditPage extends EditPage<LdapGroupEditPage> {
     public LdapGroup readLdapGroup() {
         LdapGroup ldapGroup = new LdapGroup();
         String attributeName = "value";
-        ldapGroup.setTitle(titleInput.getAttribute(attributeName));
-        ldapGroup.setDescription(descriptionInput.getAttribute(attributeName));
-        ldapGroup.setDisplayName(displayNameInput.getAttribute(attributeName));
-        ldapGroup.setGecos(gecosInput.getAttribute(attributeName));
-        ldapGroup.setGidNumber(gidNumberInput.getAttribute(attributeName));
-        ldapGroup.setHomeDirectory(homeDirectoryInput.getAttribute(attributeName));
-        ldapGroup.setLoginShell(loginShellInput.getAttribute(attributeName));
-        ldapGroup.setObjectClasses(objectClassesInput.getAttribute(attributeName));
-        ldapGroup.setSambaAcctFlags(sambaAcctFlagsInput.getAttribute(attributeName));
-        ldapGroup.setSambaKickoffTime(sambaKickoffTimeInput.getAttribute(attributeName));
-        ldapGroup.setSambaLogonHours(sambaLogonHoursInput.getAttribute(attributeName));
-        ldapGroup.setSambaLogonScript(sambaLogonScriptInput.getAttribute(attributeName));
-        ldapGroup.setSambaPasswordHistory(sambaPasswordHistoryInput.getAttribute(attributeName));
-        ldapGroup.setSambaPrimaryGroupSID(sambaPrimaryGroupSidInput.getAttribute(attributeName));
-        ldapGroup.setSambaPwdMustChange(sambaPwdMustChangeInput.getAttribute(attributeName));
-        ldapGroup.setSambaSID(sambaSidInput.getAttribute(attributeName));
-        ldapGroup.setSn(snInput.getAttribute(attributeName));
-        ldapGroup.setUid(uidInput.getAttribute(attributeName));
-        ldapGroup.setUserDN(userDnInput.getAttribute(attributeName));
+        ldapGroup.setTitle(titleInput.getDomProperty(attributeName));
+        ldapGroup.setDescription(descriptionInput.getDomProperty(attributeName));
+        ldapGroup.setDisplayName(displayNameInput.getDomProperty(attributeName));
+        ldapGroup.setGecos(gecosInput.getDomProperty(attributeName));
+        ldapGroup.setGidNumber(gidNumberInput.getDomProperty(attributeName));
+        ldapGroup.setHomeDirectory(homeDirectoryInput.getDomProperty(attributeName));
+        ldapGroup.setLoginShell(loginShellInput.getDomProperty(attributeName));
+        ldapGroup.setObjectClasses(objectClassesInput.getDomProperty(attributeName));
+        ldapGroup.setSambaAcctFlags(sambaAcctFlagsInput.getDomProperty(attributeName));
+        ldapGroup.setSambaKickoffTime(sambaKickoffTimeInput.getDomProperty(attributeName));
+        ldapGroup.setSambaLogonHours(sambaLogonHoursInput.getDomProperty(attributeName));
+        ldapGroup.setSambaLogonScript(sambaLogonScriptInput.getDomProperty(attributeName));
+        ldapGroup.setSambaPasswordHistory(sambaPasswordHistoryInput.getDomProperty(attributeName));
+        ldapGroup.setSambaPrimaryGroupSID(sambaPrimaryGroupSidInput.getDomProperty(attributeName));
+        ldapGroup.setSambaPwdMustChange(sambaPwdMustChangeInput.getDomProperty(attributeName));
+        ldapGroup.setSambaSID(sambaSidInput.getDomProperty(attributeName));
+        ldapGroup.setSn(snInput.getDomProperty(attributeName));
+        ldapGroup.setUid(uidInput.getDomProperty(attributeName));
+        ldapGroup.setUserDN(userDnInput.getDomProperty(attributeName));
         return ldapGroup;
     }
 

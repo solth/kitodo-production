@@ -75,9 +75,9 @@ public class ExtendedSearchPage extends Page<ExtendedSearchPage> {
 
     public ProcessesPage seachByTaskStatus() throws InstantiationException, IllegalAccessException {
         clickElement(taskNameDropDown.findElement(By.cssSelector(CSS_SELECTOR_DROPDOWN_TRIGGER)));
-        clickElement(Browser.getDriver().findElement(By.id(taskNameDropDown.getAttribute("id") + "_1")));
+        clickElement(Browser.getDriver().findElement(By.id(taskNameDropDown.getDomProperty("id") + "_1")));
         clickElement(taskStatusDropDown.findElement(By.cssSelector(CSS_SELECTOR_DROPDOWN_TRIGGER)));
-        clickElement(Browser.getDriver().findElement(By.id(taskStatusDropDown.getAttribute("id") + "_4")));
+        clickElement(Browser.getDriver().findElement(By.id(taskStatusDropDown.getDomAttribute("id") + "_4")));
 
         return triggerSearch();
     }

@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.Duration;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -335,7 +336,7 @@ public class MetadataST extends BaseTestSelenium {
         WebElement firstOption = Browser.getDriver().findElement(By.id("dialogAddDocStrucTypeForm:docStructAddTypeSelection_1"));
         String structureType = firstOption.getText();
         clickItemWhenDisplayed(By.id("dialogAddDocStrucTypeForm:docStructAddTypeSelection_1"), 1000, 500, 3);
-        WebDriverWait wait = new WebDriverWait(Browser.getDriver(), 3);
+        WebDriverWait wait = new WebDriverWait(Browser.getDriver(), Duration.ofSeconds(3));
         wait.until(ExpectedConditions.invisibilityOfElementLocated(By.id("dialogAddDocStrucTypeForm:docStructAddTypeSelection_1")));
         // add structure element with selected type by clicking "accept"/"apply" button
         Thread.sleep(1000);
@@ -362,7 +363,7 @@ public class MetadataST extends BaseTestSelenium {
         String galleryWithId = "metadataEditorLayoutForm:galleryWidth";
 
         Function<String, String> getValue = 
-            (id) -> Browser.getDriver().findElement(By.id(id)).getAttribute("value");
+            (id) -> Browser.getDriver().findElement(By.id(id)).getDomProperty("value");
         
         // by default, layout settings are all 0
         assertEquals("0.0", getValue.apply(structureWithId));

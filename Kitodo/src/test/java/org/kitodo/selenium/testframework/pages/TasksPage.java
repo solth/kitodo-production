@@ -18,6 +18,7 @@ import static org.kitodo.selenium.testframework.Browser.getTableDataByColumn;
 import static org.kitodo.selenium.testframework.Browser.scrollWebElementIntoView;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 import org.kitodo.selenium.testframework.Browser;
@@ -84,11 +85,11 @@ public class TasksPage extends Page<TasksPage> {
         String secondElementId = TASK_TABLE + ":" + index + ":taskDetailTableSecond";
         await("Wait for first task details to become visible").atMost(3, TimeUnit.SECONDS)
                 .untilAsserted(() -> assertTrue(Browser.getDriver().findElement(By.id(firstElementId)).isDisplayed()));
-                WebElement firstDetails = Browser.getDriver().findElementById(firstElementId);
+                WebElement firstDetails = Browser.getDriver().findElement(By.id(firstElementId));
         List<String> taskDetails = getTableDataByColumn(firstDetails, 1);
         await("Wait for second task details to become visible").atMost(3, TimeUnit.SECONDS)
                 .untilAsserted(() -> assertTrue(Browser.getDriver().findElement(By.id(secondElementId)).isDisplayed()));
-                WebElement secondDetails = Browser.getDriver().findElementById(secondElementId);
+                WebElement secondDetails = Browser.getDriver().findElement(By.id(secondElementId));
         taskDetails.addAll(getTableDataByColumn(secondDetails, 1));
         return taskDetails;
     }
@@ -148,7 +149,7 @@ public class TasksPage extends Page<TasksPage> {
     }
 
     public String getFilterInputValue() {
-        return filterField.getAttribute("value");
+        return filterField.getDomProperty("value");
     }
 
     public int countListedTasks() throws Exception {
@@ -175,13 +176,13 @@ public class TasksPage extends Page<TasksPage> {
     }
 
     /**
-     * Clicks the header of the the n-th column of the task table in order to
+     * Clicks the header of the n-th column of the task table in order to
      * trigger sorting tasks by that column.
      */
     public void clickTaskTableColumnHeaderForSorting(int column) {
         WebElement columnHeader = taskTableHeader.findElement(By.cssSelector("tr th:nth-child(" + column + ")"));
         // remember aria-sort attribute of th-tag of title column
-        String previousAriaSort = columnHeader.getAttribute("aria-sort");
+        String previousAriaSort = columnHeader.getDomProperty("aria-sort");
 
         // click title th-tag to trigger sorting
         columnHeader.click();
@@ -191,7 +192,7 @@ public class TasksPage extends Page<TasksPage> {
             .pollDelay(100, TimeUnit.MILLISECONDS)
             .atMost(10, TimeUnit.SECONDS)
             .ignoreExceptions()
-            .until(() -> !columnHeader.getAttribute("aria-sort").equals(previousAriaSort));
+            .until(() -> !Objects.equals(columnHeader.getDomProperty("aria-sort"), previousAriaSort));
     }
 
     /**
@@ -209,12 +210,12 @@ public class TasksPage extends Page<TasksPage> {
 
     private void setEditTaskLink(String taskTitle, String processTitle) {
         int index = getRowIndexForTask(taskTable, taskTitle, processTitle);
-        editTaskLink = Browser.getDriver().findElementById(TASK_TABLE + ":" + index + ":editOwnTask");
+        editTaskLink = Browser.getDriver().findElement(By.id(TASK_TABLE + ":" + index + ":editOwnTask"));
     }
 
     private void setTakeTaskLink(String taskTitle, String processTitle) {
         int index = getRowIndexForTask(taskTable, taskTitle, processTitle);
-        takeTaskLink = Browser.getDriver().findElementById(TASK_TABLE + ":" + index + ":take");
+        takeTaskLink = Browser.getDriver().findElement(By.id(TASK_TABLE + ":" + index + ":take"));
     }
 
     private int getRowIndexForTask(WebElement dataTable, String searchedTaskTitle, String searchedProcessTitle) {

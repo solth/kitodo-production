@@ -128,7 +128,7 @@ public class ImportConfigurationEditPage extends EditPage<ImportConfigurationEdi
 
     private void selectCatalogSearch() {
         clickElement(configurationTypeMenu.findElement(By.cssSelector(CSS_SELECTOR_DROPDOWN_TRIGGER)));
-        clickElement(Browser.getDriver().findElement(By.id(configurationTypeMenu.getAttribute("id") + "_1")));
+        clickElement(Browser.getDriver().findElement(By.id(configurationTypeMenu.getDomProperty("id") + "_1")));
     }
 
     private void selectCustomInterfaceType() {
@@ -137,7 +137,7 @@ public class ImportConfigurationEditPage extends EditPage<ImportConfigurationEdi
                 .atMost(4, TimeUnit.SECONDS)
                 .until(() -> interfaceTypeMenu.isEnabled());
         clickElement(interfaceTypeMenu.findElement(By.cssSelector(CSS_SELECTOR_DROPDOWN_TRIGGER)));
-        clickElement(Browser.getDriver().findElement(By.id(interfaceTypeMenu.getAttribute("id") + "_4")));
+        clickElement(Browser.getDriver().findElement(By.id(interfaceTypeMenu.getDomAttribute("id") + "_4")));
     }
 
     private void selectIdSearchField() {
@@ -146,7 +146,7 @@ public class ImportConfigurationEditPage extends EditPage<ImportConfigurationEdi
                 .atMost(3, TimeUnit.SECONDS)
                 .until(() -> searchFieldMenu.isEnabled());
         clickElement(searchFieldMenu.findElement(By.cssSelector(CSS_SELECTOR_DROPDOWN_TRIGGER)));
-        clickElement(Browser.getDriver().findElement(By.id(searchFieldMenu.getAttribute("id") + "_1")));
+        clickElement(Browser.getDriver().findElement(By.id(searchFieldMenu.getDomProperty("id") + "_1")));
     }
 
     private void assignMappingFile() {

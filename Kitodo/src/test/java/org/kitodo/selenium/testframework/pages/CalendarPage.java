@@ -164,7 +164,7 @@ public class CalendarPage extends Page<CalendarPage> {
                 .atMost(10, TimeUnit.SECONDS)
                 .ignoreExceptions()
                 .untilAsserted(() -> assertTrue(getIssue(issueName).isDisplayed()));
-        if (Objects.equals(getIssue(issueName).getAttribute("aria-expanded"), "false")) {
+        if (Objects.equals(getIssue(issueName).getDomProperty("aria-expanded"), "false")) {
             getByXPath("//div[@aria-expanded='true']").click();
             await("Wait for issue '" + issueName + "' being displayed")
                     .pollDelay(400, TimeUnit.MILLISECONDS)
@@ -239,20 +239,20 @@ public class CalendarPage extends Page<CalendarPage> {
     }
 
     private List<String> readMetadataTypes(String issueName) {
-        List<WebElement> metadataTypeLabels = Browser.getDriver().findElementsByXPath("//div[text()='" + issueName
-                + " erschien']/following-sibling::div[@aria-hidden='false']//div[@title='Art']/label");
+        List<WebElement> metadataTypeLabels = Browser.getDriver().findElements(By.xpath("//div[text()='" + issueName
+                + " erschien']/following-sibling::div[@aria-hidden='false']//div[@title='Art']/label"));
         return metadataTypeLabels.stream().map(WebElement::getText).collect(Collectors.toList());
     }
 
     private WebElement getById(String id) {
-        return Browser.getDriver().findElementById(id);
+        return Browser.getDriver().findElement(By.id(id));
     }
 
     private WebElement getByCSS(String cssSelector) {
-        return Browser.getDriver().findElementByCssSelector(cssSelector);
+        return Browser.getDriver().findElement(By.cssSelector(cssSelector));
     }
 
     private WebElement getByXPath(String xpath) {
-        return Browser.getDriver().findElementByXPath(xpath);
+        return Browser.getDriver().findElement(By.xpath(xpath));
     }
 }

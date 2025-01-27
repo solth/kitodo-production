@@ -247,7 +247,7 @@ public class ProjectsPage extends Page<ProjectsPage> {
         List<WebElement> rowsOfTable = getRowsOfTable(projectsTable);
         List<String> styleClasses = new ArrayList<>();
         for (WebElement row : rowsOfTable) {
-            styleClasses.add(getCellsOfRow(row).get(3).findElement(By.tagName("i")).getDomProperty("class"));
+            styleClasses.add(getCellsOfRow(row).get(3).findElement(By.tagName("i")).getDomAttribute("class"));
         }
         return styleClasses;
     }

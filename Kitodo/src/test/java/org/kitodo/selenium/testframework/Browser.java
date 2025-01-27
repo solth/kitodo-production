@@ -229,7 +229,7 @@ public class Browser {
     public static long getSelectedRowsOfTable(WebElement table) {
         return getRowsOfTable(table)
                 .stream()
-                .filter(element -> Objects.equals(element.getDomProperty("aria-selected"), "true"))
+                .filter(element -> Objects.equals(element.getDomAttribute("aria-selected"), "true"))
                 .count();
     }
 

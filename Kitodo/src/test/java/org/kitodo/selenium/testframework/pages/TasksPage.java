@@ -182,7 +182,7 @@ public class TasksPage extends Page<TasksPage> {
     public void clickTaskTableColumnHeaderForSorting(int column) {
         WebElement columnHeader = taskTableHeader.findElement(By.cssSelector("tr th:nth-child(" + column + ")"));
         // remember aria-sort attribute of th-tag of title column
-        String previousAriaSort = columnHeader.getDomProperty("aria-sort");
+        String previousAriaSort = columnHeader.getDomAttribute("aria-sort");
 
         // click title th-tag to trigger sorting
         columnHeader.click();
@@ -192,7 +192,7 @@ public class TasksPage extends Page<TasksPage> {
             .pollDelay(100, TimeUnit.MILLISECONDS)
             .atMost(10, TimeUnit.SECONDS)
             .ignoreExceptions()
-            .until(() -> !Objects.equals(columnHeader.getDomProperty("aria-sort"), previousAriaSort));
+            .until(() -> !Objects.equals(columnHeader.getDomAttribute("aria-sort"), previousAriaSort));
     }
 
     /**

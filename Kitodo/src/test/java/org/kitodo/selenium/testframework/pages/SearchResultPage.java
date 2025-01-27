@@ -96,7 +96,7 @@ public class SearchResultPage extends Page<SearchResultPage> {
      */
     public void clickTitleColumnForSorting() {
         // remember aria-sort attribute of th-tag of title column
-        String previousAriaSort = searchResultTableTitleColumn.getDomProperty("aria-sort");
+        String previousAriaSort = searchResultTableTitleColumn.getDomAttribute("aria-sort");
 
         // click title th-tag to trigger sorting
         searchResultTableTitleColumn.click();
@@ -106,6 +106,6 @@ public class SearchResultPage extends Page<SearchResultPage> {
             .pollDelay(100, TimeUnit.MILLISECONDS)
             .atMost(10, TimeUnit.SECONDS)
             .ignoreExceptions()
-            .until(() -> !Objects.equals(searchResultTableTitleColumn.getDomProperty("aria-sort"), previousAriaSort));
+            .until(() -> !Objects.equals(searchResultTableTitleColumn.getDomAttribute("aria-sort"), previousAriaSort));
     }
 }

@@ -206,7 +206,7 @@ public abstract class Page<T> {
                 return;
             } catch (TimeoutException e) {
                 logger.error(
-                    "Clicking on button with id " + button.getDomProperty("id") + " was not successful. Retrying now.");
+                    "Clicking on button with id " + button.getDomAttribute("id") + " was not successful. Retrying now.");
             }
         }
         throw new TimeoutException("Could not access button: " + button.getDomProperty("id") + "!");

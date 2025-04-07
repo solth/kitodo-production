@@ -39,7 +39,6 @@
                 <ui:include src="/WEB-INF/templates/includes/users/filterMenu.xhtml"/>
             </p:outputPanel>
             <p:outputPanel rendered="#{UserForm.activeTabIndex eq 1 and UserForm.user.clients.size() gt 1}">
-            <!--<p:outputPanel>-->
                 <h:form id="allClientsRolesForm">
                     <p:selectBooleanCheckbox id="showAllClientsRoles"
                                              value="#{RoleForm.showRolesOfAllAvailableClients}"

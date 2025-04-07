@@ -32,7 +32,7 @@ public class UsersPage extends Page<UsersPage> {
 
     private static final String USERS_TAB_VIEW = "usersTabView";
     private static final String USERS_TABLE = USERS_TAB_VIEW + ":usersTable";
-    private static final String ROLES_TABLE = USERS_TAB_VIEW + ":rolesTable";
+    private static final String ROLES_TABLE = USERS_TAB_VIEW + ":rolesTableForm:rolesTable";
     private static final String CLIENTS_TABLE = USERS_TAB_VIEW + ":clientsTable";
     private static final String LDAP_GROUPS_TABLE = USERS_TAB_VIEW + ":ldapGroupsTable";
 

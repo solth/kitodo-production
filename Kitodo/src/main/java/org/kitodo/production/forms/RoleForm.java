@@ -235,12 +235,21 @@ public class RoleForm extends BaseForm {
         setAssignableAuthorities(clientAuthoritiesModel);
     }
 
+    /**
+     * Get value of property 'showRolesOfAllAvailableClients' of this forms 'LazyRoleModel' instance.
+     *
+     * @return value 'showRolesOfAllAvailableClients' as boolean
+     */
     public boolean isShowRolesOfAllAvailableClients() {
         return ((LazyRoleModel)this.lazyDTOModel).isShowRolesOfAllAvailableClients();
     }
 
+    /**
+     * Set value of property 'showRolesOfAllAvailableClients' in this forms 'LazyRoleModel' instance.
+     *
+     * @param showRolesOfAllAvailableClients value of 'showRolesOfAllAvailableClients' as boolean
+     */
     public void setShowRolesOfAllAvailableClients(boolean showRolesOfAllAvailableClients) {
-        // FIXME: after passing "true" for the first time, subsequent "false" parameters do not update the list again!
         ((LazyRoleModel)this.lazyDTOModel).setShowRolesOfAllAvailableClients(showRolesOfAllAvailableClients);
     }
 

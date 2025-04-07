@@ -20,6 +20,7 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.kitodo.SecurityTestUtils;
+import org.kitodo.data.database.beans.Client;
 import org.kitodo.data.database.beans.User;
 import org.kitodo.production.services.ServiceManager;
 import org.kitodo.selenium.testframework.BaseTestSelenium;
@@ -223,9 +224,11 @@ public class ListingST extends BaseTestSelenium {
         int usersDisplayed = usersPage.countListedUsers();
         assertEquals(usersInDatabase, usersDisplayed, "Displayed wrong number of users");
 
-        int rolesInDatabase = ServiceManager.getRoleService().getAll().size();
+        Client currentSessionClient = ServiceManager.getUserService().getSessionClientOfAuthenticatedUser();
+        int clientRolesInDatabase = (int) ServiceManager.getRoleService().getAll().stream()
+                .filter(role -> role.getClient().equals(currentSessionClient)).count();
         int rolesDisplayed = usersPage.countListedRoles();
-        assertEquals(rolesInDatabase, rolesDisplayed, "Displayed wrong number of roles");
+        assertEquals(clientRolesInDatabase, rolesDisplayed, "Displayed wrong number of roles");
 
         int clientsInDatabase = ServiceManager.getClientService().getAll().size();
         int clientsDisplayed = usersPage.countListedClients();

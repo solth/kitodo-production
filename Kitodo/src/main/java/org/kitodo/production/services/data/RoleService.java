@@ -174,4 +174,18 @@ public class RoleService extends ClientSearchDatabaseService<Role, RoleDAO> {
                     .collect(Collectors.joining(COMMA_DELIMITER));
         }
     }
+
+    /**
+     * Get number of roles of session client of currently authenticated user.
+     *
+     * @return number of roles assigned to session client of currently authenticated user
+     *
+     * @throws DAOException when retrieving number of roles from database fails
+     */
+    public int getNumberOfRolesOfCurrentClient() throws DAOException {
+        Client currentSessionClient = ServiceManager.getUserService().getSessionClientOfAuthenticatedUser();
+        return (int) ServiceManager.getRoleService().getAll().stream()
+                .filter(role -> role.getClient().equals(currentSessionClient)).count();
+
+    }
 }

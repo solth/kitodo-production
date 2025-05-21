@@ -91,18 +91,45 @@
         </p:column>
         <p:column headerText="#{msgs.roles}"
                   rendered="#{UserForm.showColumn('user.roles')}">
-            <h:outputText value="#{UserForm.getRoleTitles(item.roles)}"
+            <h:outputText id="roleList"
+                          value="#{UserForm.getRoleTitles(item.roles)}"
                           title="#{UserForm.getRoleTitles(item.roles)}"/>
+            <p:tooltip for="roleList"
+                       escape="false">
+                <ui:repeat value="#{UserForm.getListOfRoleTitles(item.roles)}"
+                           var="role">
+                    <h:outputText value="#{role}"/>
+                    <br/>
+                </ui:repeat>
+            </p:tooltip>
         </p:column>
         <p:column headerText="#{msgs.clients}"
                   rendered="#{UserForm.showColumn('user.clients')}">
-            <h:outputText value="#{UserForm.getClientNames(item.clients)}"
+            <h:outputText id="clientList"
+                          value="#{UserForm.getClientNames(item.clients)}"
                           title="#{UserForm.getClientNames(item.clients)}"/>
+            <p:tooltip for="clientList"
+                       escape="false">
+                <ui:repeat value="#{UserForm.getListOfClientNames(item.clients)}"
+                           var="client">
+                    <h:outputText value="#{client}"/>
+                    <br/>
+                </ui:repeat>
+            </p:tooltip>
         </p:column>
         <p:column headerText="#{msgs.projects}"
                   rendered="#{UserForm.showColumn('user.projects')}">
-            <h:outputText value="#{UserForm.getProjectTitles(item.projects)}"
+            <h:outputText id="projectList"
+                          value="#{UserForm.getProjectTitles(item.projects)}"
                           title="#{UserForm.getProjectTitles(item.projects)}"/>
+            <p:tooltip for="projectList"
+                       escape="false">
+                <ui:repeat value="#{UserForm.getListOfProjectTitles(item.projects)}"
+                           var="project">
+                    <h:outputText value="#{project}"/>
+                    <br/>
+                </ui:repeat>
+            </p:tooltip>
         </p:column>
         <p:column headerText="#{msgs.loggedIn}"
                   rendered="#{UserForm.showColumn('user.loggedIn')}"

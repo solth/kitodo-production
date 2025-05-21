@@ -238,9 +238,8 @@ public class ProjectService extends BaseBeanService<Project, ProjectDAO> {
     public List<Project> findAllProjectsForCurrentUser() throws DAOException {
         List<Project> allUsersProjects = userService.getCurrentUser().getProjects();
         Client sessionClient = ServiceManager.getUserService().getSessionClientOfAuthenticatedUser();
-        List<Project> usersProjectsForSelectedClient = allUsersProjects.stream().filter(project -> Objects.equals(
+        return allUsersProjects.stream().filter(project -> Objects.equals(
             project.getClient(), sessionClient)).collect(Collectors.toList());
-        return usersProjectsForSelectedClient;
     }
 
     /**
@@ -263,24 +262,24 @@ public class ProjectService extends BaseBeanService<Project, ProjectDAO> {
     /**
      * Returns the names of the projects the user is allowed to see. If the user
      * has the {@code AuthorityToViewProjectList} and
-     * {@link AuthorityToViewClientList} permissions, the list is returned
-     * unfiltered. Otherwise it will be limited to those projects that belong to
+     * {@code AuthorityToViewClientList} permissions, the list is returned
+     * unfiltered. Otherwise, it will be limited to those projects that belong to
      * the client for which the user is currently working and to which the user
      * is assigned.
      * 
      * @param projects
      *            projects to filter if necessary
-     * @return Returns a string with the names, separated by ", "
+     * @return Returns a list of strings with the names, separated by ", "
      */
-    public String getProjectTitles(List<Project> projects) throws DAOException {
+    public static List<String> getProjectTitles(List<Project> projects) throws DAOException {
         if (ServiceManager.getSecurityAccessService().hasAuthorityToViewProjectList()
                 && ServiceManager.getSecurityAccessService().hasAuthorityToViewClientList()) {
-            return projects.stream().map(Project::getTitle).collect(Collectors.joining(COMMA_DELIMITER));
+            return projects.stream().map(Project::getTitle).sorted().collect(Collectors.toList());
         } else {
-            List<Integer> userProjectIds = findAllProjectsForCurrentUser().stream().map(Project::getId)
+            List<Integer> userProjectIds = getInstance().findAllProjectsForCurrentUser().stream().map(Project::getId)
                     .collect(Collectors.toList());
             return projects.stream().filter(project -> userProjectIds.contains(project.getId())).map(Project::getTitle)
-                    .collect(Collectors.joining(COMMA_DELIMITER));
+                    .sorted().collect(Collectors.toList());
         }
     }
 
@@ -303,5 +302,16 @@ public class ProjectService extends BaseBeanService<Project, ProjectDAO> {
             ServiceManager.getTemplateService().save(template);
         }
         ServiceManager.getProjectService().remove(project);
+    }
+
+    /**
+     * Return string containing titles of all given projects, separated by comma.
+     *
+     * @param projects list of Projects from which titles are to be extracted
+     * @return comma-separated string of project titles
+     * @throws DAOException when loading project titles fails
+     */
+    public static String getProjectTitleListCommaSeparated(List<Project> projects) throws DAOException {
+        return String.join(COMMA_DELIMITER, getProjectTitles(projects));
     }
 }

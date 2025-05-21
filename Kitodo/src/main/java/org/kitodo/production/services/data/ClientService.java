@@ -103,16 +103,26 @@ public class ClientService extends BaseBeanService<Client, ClientDAO> {
 
     /**
      * Create and return String containing the names of all given clients joined by a ", ".
-     * @param clients list of roles
-     * @return String containing client names
+     * @param clients list of clients
+     * @return List of client names sorted alphabetically
      */
-    public static String getClientNames(List<Client> clients) {
+    public static List<String> getClientNames(List<Client> clients) {
         if (ServiceManager.getSecurityAccessService().hasAuthorityToViewClientList()) {
-            return clients.stream().map(Client::getName).collect(Collectors.joining(COMMA_DELIMITER));
+            return clients.stream().map(Client::getName).sorted().collect(Collectors.toList());
         } else {
             return clients.stream().filter(client -> ServiceManager.getUserService().getAuthenticatedUser().getClients()
-                    .contains(client)).map(Client::getName).collect(Collectors.joining(COMMA_DELIMITER));
+                    .contains(client)).map(Client::getName).sorted().collect(Collectors.toList());
         }
+    }
+
+    /**
+     * Returns a string containing the names of all given clients, separated by a comma.
+     *
+     * @param clients the list of Client objects from which the names are to be extracted
+     * @return a comma-separated string of client names
+     */
+    public static String getClientNameListCommaSeparated(List<Client> clients) {
+        return String.join(COMMA_DELIMITER, getClientNames(clients));
     }
 
     /**

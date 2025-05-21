@@ -91,18 +91,45 @@
         </p:column>
         <p:column headerText="#{msgs.roles}"
                   rendered="#{UserListView.showColumn('user.roles')}">
-            <h:outputText value="#{UserListView.getRoleTitles(item)}"
-                          title="#{UserListView.getRoleTitles(item)}"/>
+            <h:outputText id="roleList"
+                          value="#{UserListView.getRoleTitles(item.roles)}"
+                          title="#{UserListView.getRoleTitles(item.roles)}"/>
+            <p:tooltip for="roleList"
+                       escape="false">
+                <ui:repeat value="#{UserListView.getListOfRoleTitles(item.roles)}"
+                           var="role">
+                    <h:outputText value="#{role}"/>
+                    <br/>
+                </ui:repeat>
+            </p:tooltip>
         </p:column>
         <p:column headerText="#{msgs.clients}"
                   rendered="#{UserListView.showColumn('user.clients')}">
-            <h:outputText value="#{UserListView.getClientNames(item)}"
-                          title="#{UserListView.getClientNames(item)}"/>
+            <h:outputText id="clientList"
+                          value="#{UserListView.getClientNames(item.clients)}"
+                          title="#{UserListView.getClientNames(item.clients)}"/>
+            <p:tooltip for="clientList"
+                       escape="false">
+                <ui:repeat value="#{UserListView.getListOfClientNames(item.clients)}"
+                           var="client">
+                    <h:outputText value="#{client}"/>
+                    <br/>
+                </ui:repeat>
+            </p:tooltip>
         </p:column>
         <p:column headerText="#{msgs.projects}"
                   rendered="#{UserListView.showColumn('user.projects')}">
-            <h:outputText value="#{UserListView.getProjectTitles(item)}"
-                          title="#{UserListView.getProjectTitles(item)}"/>
+            <h:outputText id="projectList"
+                          value="#{UserListView.getProjectTitles(item.projects)}"
+                          title="#{UserListView.getProjectTitles(item.projects)}"/>
+            <p:tooltip for="projectList"
+                       escape="false">
+                <ui:repeat value="#{UserListView.getListOfProjectTitles(item.projects)}"
+                           var="project">
+                    <h:outputText value="#{project}"/>
+                    <br/>
+                </ui:repeat>
+            </p:tooltip>
         </p:column>
         <p:column headerText="#{msgs.loggedIn}"
                   rendered="#{UserListView.showColumn('user.loggedIn')}"

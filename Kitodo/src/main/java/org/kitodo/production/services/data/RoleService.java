@@ -22,7 +22,6 @@ import java.util.stream.Collectors;
 
 import org.kitodo.data.database.beans.Authority;
 import org.kitodo.data.database.beans.Client;
-import org.kitodo.data.database.beans.ListColumn;
 import org.kitodo.data.database.beans.Role;
 import org.kitodo.data.database.beans.User;
 import org.kitodo.data.database.exceptions.DAOException;
@@ -163,16 +162,26 @@ public class RoleService extends BaseBeanService<Role, RoleDAO> {
     /**
      * Create and return String containing the titles of all given roles joined by a ", ".
      * @param roles list of roles
-     * @return String containing role titles
+     * @return List of Strings containing role titles
      */
-    public static String getRoleTitles(List<Role> roles) {
+    public static List<String> getRoleTitles(List<Role> roles) {
         if (ServiceManager.getSecurityAccessService().hasAuthorityGlobalToViewRoleList()) {
-            return roles.stream().map(Role::getTitle).collect(Collectors.joining(COMMA_DELIMITER));
+            return roles.stream().map(Role::getTitle).sorted().collect(Collectors.toList());
         } else {
             Client currentClient = ServiceManager.getUserService().getSessionClientOfAuthenticatedUser();
             return roles.stream().filter(role -> role.getClient().equals(currentClient)).map(Role::getTitle)
-                    .collect(Collectors.joining(COMMA_DELIMITER));
+                    .sorted().collect(Collectors.toList());
         }
+    }
+
+    /**
+     * Return string containing titles of all given roles, separated by comma.
+     *
+     * @param roles list of Roles from which titles are to be extracted
+     * @return comma-separated string of role titles
+     */
+    public static String getRoleTitleListCommaSeparated(List<Role> roles) {
+        return String.join(COMMA_DELIMITER, getRoleTitles(roles));
     }
 
     /**

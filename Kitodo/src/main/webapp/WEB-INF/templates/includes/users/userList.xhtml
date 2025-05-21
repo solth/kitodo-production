@@ -94,10 +94,21 @@
             <h:outputText value="#{UserForm.getRoleTitles(item.roles)}"
                           title="#{UserForm.getRoleTitles(item.roles)}"/>
         </p:column>
+        <!-- TODO: do the same for roles and projects! -->
         <p:column headerText="#{msgs.clients}"
                   rendered="#{UserForm.showColumn('user.clients')}">
-            <h:outputText value="#{UserForm.getClientNames(item.clients)}"
-                          title="#{UserForm.getClientNames(item.clients)}"/>
+            <h:outputText id="clientList"
+                          value="#{UserForm.getClientNames(item.clients)}"
+                          title="#{UserForm.getClientNames(item.clients)}">
+            </h:outputText>
+            <p:tooltip for="clientList"
+                       escape="false">
+                <ui:repeat value="#{UserForm.getListOfClientNames(item.clients)}"
+                           var="client">
+                    <h:outputText value="#{client}"/>
+                    <br/>
+                </ui:repeat>
+            </p:tooltip>
         </p:column>
         <p:column headerText="#{msgs.projects}"
                   rendered="#{UserForm.showColumn('user.projects')}">

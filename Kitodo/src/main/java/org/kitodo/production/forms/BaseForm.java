@@ -389,7 +389,17 @@ public class BaseForm implements Serializable {
      * @return String containing client names
      */
     public String getClientNames(List<Client> clients) {
-        return ClientService.getClientNames(clients);
+        return ClientService.getClientNameListCommaSeparated(clients);
+    }
+
+    /**
+     * Retrieves a list of client names from the provided list of clients.
+     *
+     * @param clients the list of Client objects from which names are to be extracted
+     * @return a list of strings representing the names of the clients
+     */
+    public List<String> getListOfClientNames(List<Client> clients) {
+        return ClientService.getClientNames( clients );
     }
 
     /**

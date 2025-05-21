@@ -17,6 +17,7 @@ import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -34,6 +35,7 @@ import org.kitodo.production.helper.Helper;
 import org.kitodo.production.model.LazyBeanModel;
 import org.kitodo.production.services.ServiceManager;
 import org.kitodo.production.services.data.ClientService;
+import org.kitodo.production.services.data.ProjectService;
 import org.kitodo.production.services.data.RoleService;
 import org.primefaces.component.datatable.DataTable;
 import org.primefaces.event.TabChangeEvent;
@@ -256,7 +258,7 @@ public class BaseForm implements Serializable {
      *            TabChangeEvent is fired when the user changes the tab in the
      *            current tab view
      */
-    public void onTabChange(TabChangeEvent event) {
+    public void onTabChange(TabChangeEvent<?> event) {
         setActiveTabIndex(event.getComponent().getChildren().indexOf(event.getTab()));
         if (Objects.equals(event.getTab().getId(), "indexingTab")) {
             IndexingForm.setNumberOfDatabaseObjects();
@@ -270,7 +272,7 @@ public class BaseForm implements Serializable {
      *            TabChangeEvent is fired when the user changes the tab in the
      *            current tab view
      */
-    public void onEditTabChange(TabChangeEvent event) {
+    public void onEditTabChange(TabChangeEvent<?> event) {
         setEditActiveTabIndex(event.getComponent().getChildren().indexOf(event.getTab()));
     }
 
@@ -381,7 +383,17 @@ public class BaseForm implements Serializable {
      * @return String containing role titles
      */
     public String getRoleTitles(List<Role> roles) {
-        return RoleService.getRoleTitles(roles);
+        return RoleService.getRoleTitleListCommaSeparated(roles);
+    }
+
+    /**
+     * Retrieves a list of role titles from the provided list of roles.
+     *
+     * @param roles list of Roles from which titles are to be extracted
+     * @return list of strings representing titles of given roles
+     */
+    public List<String> getListOfRoleTitles(List<Role> roles) {
+        return RoleService.getRoleTitles( roles );
     }
 
     /**
@@ -391,7 +403,17 @@ public class BaseForm implements Serializable {
      * @return String containing client names
      */
     public String getClientNames(List<Client> clients) {
-        return ClientService.getClientNames(clients);
+        return ClientService.getClientNameListCommaSeparated(clients);
+    }
+
+    /**
+     * Retrieves a list of client names from the provided list of clients.
+     *
+     * @param clients the list of Client objects from which names are to be extracted
+     * @return a list of strings representing the names of the clients
+     */
+    public List<String> getListOfClientNames(List<Client> clients) {
+        return ClientService.getClientNames( clients );
     }
 
     /**
@@ -402,10 +424,25 @@ public class BaseForm implements Serializable {
      */
     public String getProjectTitles(List<Project> projects) {
         try {
-            return ServiceManager.getProjectService().getProjectTitles(projects);
+            return ProjectService.getProjectTitleListCommaSeparated(projects);
         } catch (DAOException e) {
             Helper.setErrorMessage(e);
             return "";
+        }
+    }
+
+    /**
+     * Retrieve list of role titles from provided list of roles.
+     *
+     * @param projects list of Roles from which titles are to be extracted
+     * @return list of strings representing titles of provided roles
+     */
+    public List<String> getListOfProjectTitles(List<Project> projects) {
+        try {
+            return ProjectService.getProjectTitles(projects);
+        } catch (DAOException e) {
+            Helper.setErrorMessage(e);
+            return Collections.emptyList();
         }
     }
 

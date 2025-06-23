@@ -107,6 +107,8 @@ public class DataEditorForm implements MetadataTreeTableInterface, RulesetSetupI
      */
     private final ChangeDocStrucTypeDialog changeDocStrucTypeDialog;
 
+    private final LinkProcessDialog linkProcessDialog;
+
     /**
      * Backing bean for the edit pages dialog.
      */
@@ -242,6 +244,7 @@ public class DataEditorForm implements MetadataTreeTableInterface, RulesetSetupI
         this.changeDocStrucTypeDialog = new ChangeDocStrucTypeDialog(this);
         this.editPagesDialog = new EditPagesDialog(this);
         this.uploadFileDialog = new UploadFileDialog(this);
+        this.linkProcessDialog = new LinkProcessDialog(this);
     }
 
     /**
@@ -688,6 +691,10 @@ public class DataEditorForm implements MetadataTreeTableInterface, RulesetSetupI
      */
     public ChangeDocStrucTypeDialog getChangeDocStrucTypeDialog() {
         return changeDocStrucTypeDialog;
+    }
+
+    public LinkProcessDialog getLinkProcessDialog() {
+        return linkProcessDialog;
     }
 
     /**

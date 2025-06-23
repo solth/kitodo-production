@@ -46,6 +46,8 @@ import org.kitodo.test.utils.ProcessTestUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 /**
  * Tests for functions in the metadata editor.
@@ -973,8 +975,7 @@ public class MetadataST extends BaseTestSelenium {
 
         // wait until logical structure tree is available
         MetadataEditorPage metaDataEditor = Pages.getMetadataEditorPage();
-        await().ignoreExceptions().pollDelay(100, TimeUnit.MILLISECONDS).atMost(5, TimeUnit.SECONDS)
-            .until(() -> Browser.getDriver().findElement(By.id("logicalTree")).isDisplayed());
+        await().ignoreExceptions().pollDelay(100, TimeUnit.MILLISECONDS).atMost(5, TimeUnit.SECONDS).until(() -> Browser.getDriver().findElement(By.id("logicalTree")).isDisplayed());
 
         // select parent element
         metaDataEditor.selectStructureTreeNode("0", false, false);
@@ -990,6 +991,66 @@ public class MetadataST extends BaseTestSelenium {
 
         // verify both pages are selected in gallery
         metaDataEditor.checkGallerySelection(3);
+    }
+
+    @Test
+    public void unlinkChildProcess() throws Exception {
+        login("kowal");
+        Pages.getProcessesPage().goTo().editParentProcessMetadata();
+        List<WebElement> linkedProcessNodes = Browser.getDriver().findElements(By.className("linked"));
+        assertEquals(2, linkedProcessNodes.size(), "Wrong number of linked child processes BEFORE unlinking one child process.");
+        WebElement firstChildNode = Browser.getDriver().findElement(By.id("logicalTree:0_0"));
+        assertTrue(firstChildNode.getText().startsWith("["), "First child node of root should be a linked process and test should start with '['");
+        firstChildNode.click();
+        Pages.getMetadataEditorPage().openContextMenuForStructureTreeNode("0_0");
+        WebElement unlinkOption = Browser.getDriver().findElement(By.cssSelector("#contextMenuLogicalTree .ui-menuitem-link.unlink-process"));
+        assertEquals("Prozessverknüpfung aufheben", unlinkOption.getText());
+        unlinkOption.click();
+        Pages.getMetadataEditorPage().saveAndExit();
+
+        // re-open parent process and verify that one less child process is linked to the root node
+        Pages.getProcessesPage().goTo().editParentProcessMetadata();
+        linkedProcessNodes = Browser.getDriver().findElements(By.className("linked"));
+        assertEquals(1, linkedProcessNodes.size(), "Wrong number of linked child processes AFTER unlinking one child process.");
+
+        // select root node
+        WebElement parentNode = Browser.getDriver().findElement(By.id("logicalTree:0"));
+        parentNode.click();
+
+        // re-link the removed child process
+        Pages.getMetadataEditorPage().openContextMenuForStructureTreeNode("0");
+        assertEquals("Untergeordneten Vorgang verknüpfen", Browser.getDriver().findElement(By.cssSelector("#contextMenuLogicalTree .ui-menuitem-link.link-process")).getText());
+        Browser.getDriver().findElement(By.cssSelector("#contextMenuLogicalTree .ui-menuitem-link.link-process")).click();
+
+        // enter name of unlinked child process
+        pollAssertTrue(Browser.getDriver().findElement(By.id("linkProcessForm:processTitle"))::isDisplayed);
+        Browser.getDriver().findElement(By.id("linkProcessForm:processTitle")).sendKeys(FIRST_CHILD_PROCESS_TITLE);
+
+        // click "search" button to retrieve unlinked child process
+        pollAssertTrue(Browser.getDriver().findElement(By.id("linkProcessForm:searchButton"))::isDisplayed);
+        Browser.getDriver().findElement(By.id("linkProcessForm:searchButton")).click();
+
+        // FIXME: the following leads to a 'StaleElementReferenceException' because Selenium seems to be unable to find "linkProcessForm:processSelect"
+        // open selection menu for processes that can be linked
+        WebDriverWait wait = new WebDriverWait(Browser.getDriver(), 3);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("linkProcessForm:processSelect")));
+        pollAssertTrue(Browser.getDriver().findElement(By.id("linkProcessForm:processSelect"))::isDisplayed);
+        Browser.getDriver().findElement(By.id("linkProcessForm:processSelect")).click();
+
+        // select the first option from the menu
+        pollAssertTrue(Browser.getDriver().findElement(By.id("linkProcessForm:processSelect_1"))::isDisplayed);
+        Browser.getDriver().findElement(By.id("linkProcessForm:processSelect_1")).click();
+
+        // click the "add" button to close the dialog
+        pollAssertTrue(Browser.getDriver().findElement(By.id("linkProcessForm:addLinkButton"))::isEnabled);
+        Browser.getDriver().findElement(By.id("linkProcessForm:addLinkButton")).click();
+
+        // verify that after re-linking the removed child process
+        linkedProcessNodes = Browser.getDriver().findElements(By.className("linked"));
+        assertEquals(2, linkedProcessNodes.size(), "Wrong number of linked child processes AFTER re-linking previously unlinked child process.");
+
+        // save the process to restore initial state
+        Pages.getMetadataEditorPage().save();
     }
 
     /**

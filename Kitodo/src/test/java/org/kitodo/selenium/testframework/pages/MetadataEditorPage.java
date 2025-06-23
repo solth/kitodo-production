@@ -383,7 +383,7 @@ public class MetadataEditorPage extends Page<MetadataEditorPage> {
                         .findElement(By.id(SAVE_AND_EXIT_BUTTON_ID))::isDisplayed);
         WebElement contextMenu = Browser.getDriver().findElement(By.id("contextMenuLogicalTree"));
         List<WebElement> menuItems = contextMenu.findElements(By.className("ui-menuitem"));
-        assertEquals(3, menuItems.size(), "Wrong number of context menu items");
+        assertEquals(4, menuItems.size(), "Wrong number of context menu items");
         // click "add element" option
         menuItems.get(0).click();
         // open "structure element type selection" menu

@@ -3991,6 +3991,11 @@ div[id$='metadataTable'].ui-treetable tr.focusedRow {
     background-color: var(--blue);
 }
 
+#map div.ol-control.pin-media.active button {
+    background: white;
+    color: var(--blue);
+}
+
 #imagePreviewForm\:mediaDetailNavigationPanel {
     position: absolute;
     width: 100%;
@@ -4012,6 +4017,10 @@ div[id$='metadataTable'].ui-treetable tr.focusedRow {
 
 #imagePreviewForm\:mediaDetailNavigationPanel button:enabled:hover {
     background: var(--blue);
+}
+
+#imagePreviewForm\:mediaDetail:not(.unpinned) #imagePreviewForm\:mediaDetailNavigationPanel {
+    display: none;
 }
 
 #galleryWrapperPanel,

@@ -40,7 +40,7 @@
                                 metadataEditor.gallery.mediaView.update();
                                 expandMetadata('physical-metadata-tab');"
                     update="galleryHeadingWrapper
-                            imagePreviewForm:mediaDetail
+                            @(.unpinned)
                             imagePreviewForm:mediaPartialList
                             metadataAccordion:physicalMetadataWrapperPanel"/>
             <p:ajax event="contextMenu"
@@ -50,7 +50,7 @@
                     update="@(.stripe)
                                 @(.thumbnail)
                                 galleryHeadingWrapper
-                                imagePreviewForm:mediaDetail
+                                @(.unpinned)
                                 imagePreviewForm:mediaPartialList
                                 contextMenuPhysicalTree
                                 logicalTree

@@ -1093,8 +1093,9 @@ metadataEditor.detailView = {
      * @param {int} delta position delta with respect to currently selected media
      */
     navigate(delta) {
-        // find media currently shown in detail view
-        let currentTreeNodeId = $("#imagePreviewForm\\:mediaDetail").data("logicaltreenodeid");
+        // find currently selected media (the navigation panel is updated on every selection change,
+        // even if the media shown in the detail view is pinned)
+        let currentTreeNodeId = $("#imagePreviewForm\\:mediaDetailNavigationPanel").data("logicaltreenodeid");
         if (!currentTreeNodeId) {
             return;
         }

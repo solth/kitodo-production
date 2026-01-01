@@ -80,7 +80,8 @@
                                 metadataEditor.gallery.mediaView.update();
                                 expandMetadata('logical-metadata-tab');"
                     update="galleryHeadingWrapper
-                            imagePreviewForm:mediaDetail
+                            @(.unpinned)
+                            @(.pinned>.mediaDetailNavigation)
                             imagePreviewForm:mediaPartialList
                             contextMenuLogicalTree
                             imagePreviewForm:stripeContextMenu
@@ -97,7 +98,8 @@
                     update="@(.stripe)
                             @(.thumbnail)
                             galleryHeadingWrapper
-                            imagePreviewForm:mediaDetail
+                            @(.unpinned)
+                            @(.pinned>.mediaDetailNavigation)
                             imagePreviewForm:mediaPartialList
                             contextMenuLogicalTree
                             physicalTree

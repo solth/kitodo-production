@@ -4127,6 +4127,11 @@ div[id$='metadataTable'].ui-treetable tr.focusedRow {
     top: calc(50% - 50px);
 }
 
+#map div.ol-control.pin-media.active button {
+    background: white;
+    color: var(--blue);
+}
+
 #imagePreviewForm\:mediaDetailNavigationPanel {
     position: absolute;
     width: 100%;

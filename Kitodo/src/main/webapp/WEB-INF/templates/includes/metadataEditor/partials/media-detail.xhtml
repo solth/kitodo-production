@@ -22,7 +22,8 @@
     <ui:param name="selectedGalleryMediaContent"
         value="#{DataEditorForm.galleryPanel.getGalleryMediaContent(DataEditorForm.galleryPanel.lastSelection.key)}"/>
     
-    <h:panelGroup id="mediaDetail" 
+    <h:panelGroup id="mediaDetail"
+                  styleClass="unpinned"
                   layout="block"
                   a:data-logicaltreenodeid="#{selectedGalleryMediaContent.getLogicalTreeNodeId()}">
 

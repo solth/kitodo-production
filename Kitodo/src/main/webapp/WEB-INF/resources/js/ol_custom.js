@@ -8,7 +8,7 @@
  * For the full copyright and license information, please read the
  * GPL3-License.txt file that was distributed with this source code.
  */
-/* globals ol */
+/* globals ol updateMediaDetail */
 // jshint unused:false
 
 /**
@@ -95,7 +95,38 @@ class RotateRightControl extends CustomControl {
             duration: 100
         });
     }
-};
+}
+
+/**
+ * Custom control that "pins" the currently selected image/media in the detail view. When pinned, an
+ * image/media remains in the detail view even when the user selects a different image/media, until the
+ * current image is unpinned again.
+ */
+class PinMediaControl extends CustomControl {
+    constructor(options) {
+        super(Object.assign(options || {}, {
+            className: "pin-media",
+            icon: "fa-thumb-tack",
+            title: "Pin media",
+        }));
+    }
+
+    handleClick(event) {
+        let pinned = this.element.classList.toggle("active");
+        if (pinned) {
+            // exclude detail view from AJAX updates triggered by selection changes ("@(.unpinned)"), but
+            // keep updating its navigation buttons ("@(.pinned>.mediaDetailNavigation)")
+            let mediaDetail = document.getElementById("imagePreviewForm:mediaDetail");
+            mediaDetail.classList.remove("unpinned");
+            mediaDetail.classList.add("pinned");
+        } else {
+            // re-render the complete detail view, so that the displayed media, its "data-logicaltreenodeid"
+            // attribute (used by the navigation buttons) and the navigation buttons themselves reflect
+            // the current selection again
+            updateMediaDetail();
+        }
+    }
+}
 
 /**
  * Custom control that rotates the image back to default.
@@ -332,7 +363,8 @@ class KitodoDetailMap {
                 new RotateLeftControl(),
                 new RotateRightControl(),
                 new RotateNorthControl(),
-                new ResetZoomControl({ extent })
+                new ResetZoomControl({ extent }),
+                new PinMediaControl()
             ]),
             interactions: ol.interaction.defaults({
                 zoomDelta: 5, // zoom delta when using mouse wheel
@@ -478,8 +510,10 @@ class KitodoDetailMap {
      * Reloads the image. Is called when the detail view is activated, or a new image was selected.
      */
     update() {
-        this.registerImageLoadEvent();
-        $("#imagePreviewForm\\:loadingSymbol").show();
+        if (!$("div.pin-media").hasClass("active")) {
+            this.registerImageLoadEvent();
+            $("#imagePreviewForm\\:loadingSymbol").show();
+        }
     }
 }
 

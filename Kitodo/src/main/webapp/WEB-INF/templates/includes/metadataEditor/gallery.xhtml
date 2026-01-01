@@ -37,7 +37,7 @@
             <p:remoteCommand name="sendGallerySelect"
                              action="#{DataEditorForm.galleryPanel.select}"
                              update="galleryHeadingWrapper
-                                     imagePreviewForm:mediaDetail
+                                     @(.unpinned)
                                      imagePreviewForm:stripeContextMenu
                                      imagePreviewForm:mediaContextMenu
                                      metadataAccordion:logicalMetadataHeader
@@ -47,6 +47,8 @@
                              action="#{DataEditorForm.galleryPanel.setGalleryViewMode}"
                              update="imagePreviewForm galleryHeadingWrapper"
                              oncomplete="metadataEditor.shortcuts.updateViews()"/>
+            <p:remoteCommand name="updateMediaDetailNavigationPanel"
+                             update="imagePreviewForm:mediaDetailNavigationPanel"/>
             <p:outputLabel id="galleryViewMode"
                            value="#{DataEditorForm.galleryPanel.galleryViewMode}"
                            style="display: none;"/>

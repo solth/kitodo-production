@@ -79,7 +79,7 @@ public class MetsXmlElementAccessIT {
 
         // file URIs can be read
         assertEquals(new URI("images/ThomPhar_644901748_media/00000001.tif"),
-            workpiece.getPhysicalStructure().getChildren().get(0).getMediaFiles().entrySet().iterator().next().getValue());
+            workpiece.getPhysicalStructure().getChildren().getFirst().getMediaFiles().entrySet().iterator().next().getValue());
 
         // pagination can be read
         assertEquals(
@@ -147,7 +147,7 @@ public class MetsXmlElementAccessIT {
         frontCover.setType("frontCover");
         frontCover.setLabel("Front cover");
         View view = new View();
-        view.setPhysicalDivision(pages.get(0));
+        view.setPhysicalDivision(pages.getFirst());
         frontCover.getViews().add(view);
         view.getPhysicalDivision().getLogicalDivisions().add(frontCover);
         workpiece.getLogicalStructure().getChildren().add(frontCover);

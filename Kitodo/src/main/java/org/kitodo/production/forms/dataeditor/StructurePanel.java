@@ -1234,6 +1234,49 @@ public class StructurePanel implements Serializable {
         }
     }
 
+    public boolean isDeletingStructurePossible() {
+        // TODO: deleting should probably also be possible if more than one node is selected!
+        TreeNode<Object> treeNode = getSelectedLogicalNodeIfSingle();
+        if (Objects.isNull(treeNode) || Objects.isNull(treeNode.getData())) {
+            return false;
+        }
+        // root node cannot be deleted
+        if ("0".equals(treeNode.getRowKey())) {
+            return false;
+        }
+        if (treeNode.getData() instanceof StructureTreeNode structureTreeNode) {
+            String nodeType = treeNode.getType();
+            return (Objects.nonNull(structureTreeNode.getDataObject())
+                    && !VIEW_NODE_TYPE.equals(nodeType)
+                    && !MEDIA_PARTIAL_NODE_TYPE.equals(nodeType));
+        }
+        return false;
+    }
+
+    public boolean isUploadingMediaPossible() {
+        TreeNode<Object> treeNode = getSelectedLogicalNodeIfSingle();
+        if (Objects.isNull(treeNode) || Objects.isNull(treeNode.getData())) {
+            return false;
+        }
+        if (treeNode.getData() instanceof StructureTreeNode structureTreeNode) {
+            return (dataEditor.isFolderConfigurationComplete() && !structureTreeNode.isLinked());
+        }
+        return false;
+    }
+
+    public boolean canStructureBeUnlinked() {
+        TreeNode<Object> treeNode = getSelectedLogicalNodeIfSingle();
+        if (Objects.isNull(treeNode) || Objects.isNull(treeNode.getData())) {
+            return false;
+        }
+        if (isAssignedSeveralTimes()) {
+            if (treeNode.getData() instanceof StructureTreeNode structureTreeNode) {
+                return !structureTreeNode.isLinked();
+            }
+        }
+        return false;
+    }
+
     /**
      * Checks whether conditions are met for displaying the context menu option to add a new structure element is
      * displayed for the currently selected node(s) in the logical structure tree.

@@ -1236,6 +1236,78 @@ public class StructurePanel implements Serializable {
     }
 
     /**
+     * Determines whether the deletion of the currently selected structure node is possible.
+     * The method checks several conditions:
+     * 1. A single logical tree node must be selected.
+     * 2. The selected node must not be null and must contain valid data.
+     * 3. The root node (row key "0") cannot be deleted.
+     * 4. The structure node must not belong to specific disallowed types
+     *    (e.g., "VIEW_NODE_TYPE" or "MEDIA_PARTIAL_NODE_TYPE").
+     *
+     * @return true if the deletion of the selected structure node is possible
+     *         based on the defined conditions, otherwise false.
+     */
+    public boolean isDeletingStructurePossible() {
+        TreeNode<Object> treeNode = getSelectedLogicalNodeIfSingle();
+        if (Objects.isNull(treeNode) || Objects.isNull(treeNode.getData())) {
+            return false;
+        }
+        // root node cannot be deleted
+        if ("0".equals(treeNode.getRowKey())) {
+            return false;
+        }
+        if (treeNode.getData() instanceof StructureTreeNode structureTreeNode) {
+            String nodeType = treeNode.getType();
+            return (Objects.nonNull(structureTreeNode.getDataObject())
+                    && !VIEW_NODE_TYPE.equals(nodeType)
+                    && !MEDIA_PARTIAL_NODE_TYPE.equals(nodeType));
+        }
+        return false;
+    }
+
+    /**
+     * Determines if uploading media is possible based on the state of the selected logical node
+     * and its associated data.
+     * This method verifies that a single logical node is selected, that the node does not represent a linked process
+     * and that its data object is of type {@code StructureTreeNode}.
+     *
+     * @return {@code true} if uploading media is possible; {@code false} otherwise. Uploading media
+     *         is possible when a single logical node is selected, its data is valid, folder
+     *         configuration is complete, and the node does not represent a linked process.
+     */
+    public boolean isUploadingMediaPossible() {
+        TreeNode<Object> treeNode = getSelectedLogicalNodeIfSingle();
+        if (Objects.isNull(treeNode) || Objects.isNull(treeNode.getData())) {
+            return false;
+        }
+        if (treeNode.getData() instanceof StructureTreeNode structureTreeNode) {
+            return (dataEditor.isFolderConfigurationComplete() && !structureTreeNode.isLinked());
+        }
+        return false;
+    }
+
+    /**
+     * Determines whether the currently selected logical structure
+     * - does not represent a linked process
+     * - contains data that is of type {@code StructureTreeNode}
+     * - represents a media unit assigned (e.g. "linked") to multiple structure elements
+     *
+     * @return whether the currently selected node represents a media unit that can be unlinked
+     */
+    public boolean canStructureBeUnlinked() {
+        TreeNode<Object> treeNode = getSelectedLogicalNodeIfSingle();
+        if (Objects.isNull(treeNode) || Objects.isNull(treeNode.getData())) {
+            return false;
+        }
+        if (isAssignedSeveralTimes()) {
+            if (treeNode.getData() instanceof StructureTreeNode structureTreeNode) {
+                return !structureTreeNode.isLinked();
+            }
+        }
+        return false;
+    }
+
+    /**
      * Checks whether conditions are met for displaying the context menu option to add a new structure element is
      * displayed for the currently selected node(s) in the logical structure tree.
      * The conditions are:

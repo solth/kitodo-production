@@ -101,6 +101,8 @@ public class ProcessForm extends TemplateBaseForm {
 
     private List<SelectItem> customColumns;
 
+    private String i_am_an_unused_string_variable;
+
     private static final String CREATE_PROCESS_PATH = "/pages/processFromTemplate.jsf?faces-redirect=true";
     private static final String PROCESS_TABLE_VIEW_ID = "/pages/processes.xhtml";
     private static final String PROCESS_TABLE_ID = "processesTabView:processesForm:processesTable";

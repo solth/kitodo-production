@@ -122,7 +122,8 @@ public class WebDriverProvider {
     public static void provideChromeDriver(String downloadFolder, String extractFolder)
             throws IOException {
         String chromeDriverVersion = fetchLatestStableChromeDriverVersion();
-        String chromeDriverUrl = CHROME_FOR_TESTING_URL + chromeDriverVersion + '/';
+        logger.info("Downloading Chrome Driver version {}", chromeDriverVersion);
+        String chromeDriverUrl = CHROME_FOR_TESTING_URL + "144.0.7559.109/";
         String driverFilename = CHROME_DRIVER;
         File chromeDriverFile;
         if (SystemUtils.IS_OS_WINDOWS) {

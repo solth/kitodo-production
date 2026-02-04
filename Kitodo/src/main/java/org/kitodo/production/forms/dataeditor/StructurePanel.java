@@ -54,7 +54,6 @@ import org.kitodo.production.model.Subfolder;
 import org.kitodo.production.services.ServiceManager;
 import org.primefaces.event.NodeCollapseEvent;
 import org.primefaces.event.NodeExpandEvent;
-import org.primefaces.event.NodeSelectEvent;
 import org.primefaces.event.TreeDragDropEvent;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
@@ -1049,11 +1048,8 @@ public class StructurePanel implements Serializable {
 
     /**
      * Callback function triggered when a node is selected in the logical structure tree.
-     *
-     * @param event
-     *            NodeSelectEvent triggered by logical node being selected
      */
-    public void treeLogicalSelect(NodeSelectEvent event) {
+    public void treeLogicalSelect() {
         /*
          * The newly selected element has already been set in 'selectedLogicalNodes' by
          * JSF at this point.
@@ -1084,11 +1080,8 @@ public class StructurePanel implements Serializable {
 
     /**
      * Callback function triggered when a node is selected in the physical structure tree.
-     *
-     * @param event
-     *            NodeSelectEvent triggered by logical node being selected
      */
-    public void treePhysicalSelect(NodeSelectEvent event) {
+    public void treePhysicalSelect() {
         /*
          * The newly selected element has already been set in 'selectedPhysicalNode' by
          * JSF at this point.

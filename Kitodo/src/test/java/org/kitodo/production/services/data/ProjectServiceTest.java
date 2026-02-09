@@ -36,9 +36,15 @@ public class ProjectServiceTest {
         assertFalse(projectService.isProjectComplete(project), "Project shouldn't be complete");
 
         // Add xmls to complete project
-        KitodoConfigFile.PROJECT_CONFIGURATION.getFile().createNewFile();
+        boolean fileCreated = KitodoConfigFile.PROJECT_CONFIGURATION.getFile().createNewFile();
+        if (!fileCreated) {
+            throw new RuntimeException("Failed to create test file");
+        }
         assertTrue(projectService.isProjectComplete(project), "Project should be complete");
-        KitodoConfigFile.PROJECT_CONFIGURATION.getFile().delete();
+        boolean fileDeleted = KitodoConfigFile.PROJECT_CONFIGURATION.getFile().delete();
+        if (!fileDeleted) {
+            throw new RuntimeException("Failed to delete test file");
+        }
     }
 
 }

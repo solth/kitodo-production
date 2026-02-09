@@ -11,6 +11,9 @@
 
 package org.kitodo.production.helper;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -20,6 +23,7 @@ import java.io.OutputStream;
  */
 public class RangeStreamHelper {
 
+    private static final Logger logger = LogManager.getLogger(RangeStreamHelper.class);
     public static final int DEFAULT_BUFFER_SIZE = 250000; // 2MB.
 
     /**
@@ -66,7 +70,8 @@ public class RangeStreamHelper {
                 output.flush();
             }
         } else {
-            input.skip(start);
+            long skippedBytes = input.skip(start);
+            logger.trace("{} bytes skipped when copying input stream to output stream", skippedBytes);
             long toRead = length;
 
             while ((read = input.read(buffer)) > 0) {

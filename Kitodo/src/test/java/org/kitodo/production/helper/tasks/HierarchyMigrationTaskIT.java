@@ -167,23 +167,41 @@ public class HierarchyMigrationTaskIT {
         File originalMeta = new File(processHome, "meta_MigrationTaskIT.tmp");
         if (originalMeta.exists()) {
             File metaFile = new File(processHome, "meta.xml");
-            metaFile.delete();
-            originalMeta.renameTo(metaFile);
+            boolean fileDeleted = metaFile.delete();
+            if (!fileDeleted) {
+                throw new RuntimeException("Unable to delete metadata file");
+            }
+            boolean fileRenamed = originalMeta.renameTo(metaFile);
+            if (!fileRenamed) {
+                throw new RuntimeException("Unable to rename metadata file");
+            }
         }
 
         processHome = new File(ConfigCore.getKitodoDataDirectory(), "4");
         originalMeta = new File(processHome, "meta_MigrationTaskIT_4.tmp");
         if (originalMeta.exists()) {
             File metaFile = new File(processHome, "meta.xml");
-            metaFile.delete();
-            originalMeta.renameTo(metaFile);
+            boolean fileDeleted = metaFile.delete();
+            if (!fileDeleted) {
+                throw new RuntimeException("Unable to delete metadata file");
+            }
+            boolean fileRenamed = originalMeta.renameTo(metaFile);
+            if (!fileRenamed) {
+                throw new RuntimeException("Unable to rename metadata file");
+            }
         }
-        new File("src/test/resources/metadata/2/meta_anchor.migrated").delete();
+        boolean fileDeleted = new File("src/test/resources/metadata/2/meta_anchor.migrated").delete();
+        if (!fileDeleted) {
+            throw new RuntimeException("Unable to delete migrated metadata file");
+        }
     }
 
     private static void moveMetaFileAway(int recordNumber, String tempFileName) throws Exception {
         File processHome = new File(ConfigCore.getKitodoDataDirectory(), Integer.toString(recordNumber));
-        new File(processHome, "meta.xml").renameTo(new File(processHome, tempFileName));
+        boolean fileRenamed = new File(processHome, "meta.xml").renameTo(new File(processHome, tempFileName));
+        if (!fileRenamed) {
+            throw new RuntimeException("Unable to rename metadata file");
+        }
     }
 
 }

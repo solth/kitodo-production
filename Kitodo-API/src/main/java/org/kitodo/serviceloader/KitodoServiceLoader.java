@@ -286,7 +286,10 @@ public class KitodoServiceLoader<T> {
      */
     private void extractFrontEndFiles(String jarPath, File destinationFolder) throws IOException {
         if (!destinationFolder.exists()) {
-            destinationFolder.mkdir();
+            boolean folderCreated = destinationFolder.mkdir();
+            if (!folderCreated) {
+                throw new RuntimeException("Unable to create folder " + destinationFolder.getAbsolutePath());
+            }
         }
 
         try (JarFile jar = new JarFile(jarPath)) {

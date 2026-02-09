@@ -90,7 +90,10 @@ public class NewspaperMigrationTaskIT {
         if (ORIGINAL_METADATA_TEMPORARY_LOCATION.exists()) {
             TreeDeleter.deltree(METADATA_DIRECTORY);
         } else {
-            METADATA_DIRECTORY.renameTo(ORIGINAL_METADATA_TEMPORARY_LOCATION);
+            boolean directoryRenamed = METADATA_DIRECTORY.renameTo(ORIGINAL_METADATA_TEMPORARY_LOCATION);
+            if (!directoryRenamed) {
+                throw new RuntimeException("Unable to rename metadata directory");
+            }
         }
     }
 
@@ -146,7 +149,10 @@ public class NewspaperMigrationTaskIT {
             if (METADATA_DIRECTORY.exists()) {
                 TreeDeleter.deltree(METADATA_DIRECTORY);
             }
-            ORIGINAL_METADATA_TEMPORARY_LOCATION.renameTo(METADATA_DIRECTORY);
+            boolean directoryRenamed = ORIGINAL_METADATA_TEMPORARY_LOCATION.renameTo(METADATA_DIRECTORY);
+            if (!directoryRenamed) {
+                throw new RuntimeException("Unable to rename metadata directory");
+            }
         }
     }
 }

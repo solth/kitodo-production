@@ -56,7 +56,7 @@
             <h:outputText value="#{msgs.processes}"
                           styleClass="shortable" />
             <h:panelGroup id="processCount" layout="inline">
-                #{msgs.hits}: #{ProcessListView.amount}
+                #{msgs.hits}: #{ProcessListView.amount} (#{ProcessListView.selectedProcesses.size()} #{msgs.selected})
             </h:panelGroup>
             <h:form id="headerForm">
                 <p:remoteCommand name="updateProcessCount"

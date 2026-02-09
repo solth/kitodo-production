@@ -46,9 +46,11 @@
             <p:ajax event="rowToggle"
                     oncomplete="registerRowToggleEvents();"/>
             <p:ajax event="rowSelectCheckbox"
-                    listener="#{ProcessListView.onRowSelect}"/>
+                    listener="#{ProcessListView.onRowSelect}"
+                    update="processCount"/>
             <p:ajax event="rowUnselectCheckbox"
-                    listener="#{ProcessListView.onRowUnselect}"/>
+                    listener="#{ProcessListView.onRowUnselect}"
+                    update="processCount"/>
             <p:ajax event="toggleSelect"
                     listener="#{ProcessListView.selectAll}"/>
 
@@ -266,8 +268,8 @@
 
         <p:overlayPanel id="allSelectableOverlayPanel" widgetVar="allSelectableOverlayPanel" dismissable="true" styleClass="allSelectableOverlayPanel" >
             <ul>
-                <li><p:commandLink id="selectAllRowsOnPage" value="#{msgs.selectAllRowsOnPage}" onclick="PF('processesTable').unselectAllRows();PF('processesTable').selectAllRowsOnPage();PF('allSelectableOverlayPanel').hide();"/></li>
-                <li><p:commandLink id="selectAllRows" value="#{msgs.selectAllRows}" actionListener="#{ProcessListView.setAllSelected(true)}" onclick="PF('processesTable').selectAllRows();PF('allSelectableOverlayPanel').hide();"/></li>
+                <li><p:commandLink id="selectAllRowsOnPage" value="#{msgs.selectAllRowsOnPage}" onclick="PF('processesTable').unselectAllRows();PF('processesTable').selectAllRowsOnPage();PF('allSelectableOverlayPanel').hide();" update="processCount"/></li>
+                <li><p:commandLink id="selectAllRows" value="#{msgs.selectAllRows}" actionListener="#{ProcessListView.setAllSelected(true)}" onclick="PF('processesTable').selectAllRows();PF('allSelectableOverlayPanel').hide();" update="processCount"/></li>
             </ul>
         </p:overlayPanel>
 

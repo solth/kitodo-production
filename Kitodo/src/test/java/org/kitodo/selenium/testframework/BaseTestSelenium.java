@@ -50,7 +50,10 @@ public class BaseTestSelenium {
             massIndexer.startAndWait();
         }
 
-        usersDirectory.mkdir();
+        boolean directoryCreated = usersDirectory.mkdir();
+        if (!directoryCreated) {
+            throw new RuntimeException("Unable to create user directory");
+        }
 
         FileLoader.createDiagramTestFile();
         FileLoader.createConfigProjectsFile();
@@ -83,11 +86,14 @@ public class BaseTestSelenium {
         FileLoader.deleteConfigProjectsFile();
         FileLoader.deleteDiagramTestFile();
 
-        usersDirectory.delete();
-
         MockDatabase.stopNode();
         MockDatabase.stopDatabaseServer();
         MockDatabase.cleanDatabase();
+
+        boolean directoryDeleted = usersDirectory.delete();
+        if (!directoryDeleted) {
+            throw new RuntimeException("Unable to delete user directory");
+        }
     }
 
     protected void pollAssertTrue(Callable<Boolean> conditionEvaluator) {

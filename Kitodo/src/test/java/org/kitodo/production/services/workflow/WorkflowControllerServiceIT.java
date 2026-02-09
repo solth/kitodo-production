@@ -80,7 +80,10 @@ public class WorkflowControllerServiceIT {
         workflowTestProcessId2 = task.getProcess().getId();
         ProcessTestUtils.copyTestMetadataFile(workflowTestProcessId2, METADATA_TEST_FILENAME);
 
-        usersDirectory.mkdir();
+        boolean directoryCreated = usersDirectory.mkdir();
+        if (!directoryCreated) {
+            throw new RuntimeException("Unable to create user directory");
+        }
 
         if (!SystemUtils.IS_OS_WINDOWS) {
             ExecutionPermission.setExecutePermission(scriptCreateDirUserHome);
@@ -107,7 +110,10 @@ public class WorkflowControllerServiceIT {
             ExecutionPermission.setNoExecutePermission(scriptWorking);
         }
 
-        usersDirectory.delete();
+        boolean directoryDeleted = usersDirectory.delete();
+        if (!directoryDeleted) {
+            throw new RuntimeException("Unable to delete user directory");
+        }
     }
 
     @Test

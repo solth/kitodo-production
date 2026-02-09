@@ -122,6 +122,11 @@ public class ProcessListBaseView extends ValidatableForm {
     public void setAllSelected(boolean allSelected) {
         Stopwatch stopwatch = new Stopwatch(this, "setAllSelected", "allSelected", Boolean.toString(allSelected));
         this.allSelected = allSelected;
+        // FIXME: the "selected" count in the frontend is not updated when unselecting
+        //  _all_ processes by opening the popup menu for process selection!
+        if (allSelected) {
+            PrimeFaces.current().ajax().update("processCount");
+        }
         excludedProcessIds.clear();
         stopwatch.stop();
     }

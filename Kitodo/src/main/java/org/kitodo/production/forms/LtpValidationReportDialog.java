@@ -171,7 +171,7 @@ public class LtpValidationReportDialog implements Serializable {
             return Collections.emptyList();
         }
         return this.resultsByFolder.keySet().stream()
-                .filter((folder) -> getFilesWithValidationIssues(folder).size() > 0)
+                .filter((folder) -> !getFilesWithValidationIssues(folder).isEmpty())
                 .sorted((fA, fB) -> getNumberOfFilesWithValidationErrorsForFolder(fB)
                         - getNumberOfFilesWithValidationErrorsForFolder(fA))
                 .limit(MAX_NUMBER_OF_REPORTED_FOLDERS).collect(Collectors.toList());

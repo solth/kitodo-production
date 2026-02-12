@@ -159,7 +159,7 @@ public class DivXmlElementAccess extends LogicalDivision {
             if (Objects.nonNull(fileXmlElementAccesses) && fileXmlElementAccesses.contains(fileXmlElementAccess)) {
                 return true;
             }
-            if (div.getDiv().size() > 0
+            if (!div.getDiv().isEmpty()
                     && fileXmlElementAccessIsLinkedToChildren(fileXmlElementAccess, div.getDiv(), physicalDivisionsMap)) {
                 test = true;
             }

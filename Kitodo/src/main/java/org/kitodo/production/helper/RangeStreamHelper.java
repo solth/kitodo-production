@@ -35,7 +35,7 @@ public class RangeStreamHelper {
      */
     public static long sublong(String value, int beginIndex, int endIndex) {
         String substring = value.substring(beginIndex, endIndex);
-        return (substring.length() > 0) ? Long.parseLong(substring) : -1;
+        return (!substring.isEmpty()) ? Long.parseLong(substring) : -1;
     }
 
     /**

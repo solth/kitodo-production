@@ -935,7 +935,7 @@ public class Task extends BaseBean {
         }
         List<Comment> correctionComments = process.getComments()
                 .stream().filter(c -> CommentType.ERROR.equals(c.getType())).collect(Collectors.toList());
-        if (correctionComments.size() < 1) {
+        if (correctionComments.isEmpty()) {
             return CorrectionComments.NO_CORRECTION_COMMENTS.getValue();
         } else if (correctionComments.stream().anyMatch(c -> !c.isCorrected())) {
             return CorrectionComments.OPEN_CORRECTION_COMMENTS.getValue();

@@ -170,7 +170,7 @@ public class CreateNewProcessOrder {
             return Integer.valueOf(processId);
         } else {
             Collection<Process> parents = ServiceManager.getProcessService().findByTitle(processId);
-            if (parents.size() == 0) {
+            if (parents.isEmpty()) {
                 throw new ProcessorException("Parent process not found");
             } else if (parents.size() > 1) {
                 throw new ProcessorException("Parent process exists more than one");

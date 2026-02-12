@@ -360,7 +360,7 @@ public class LtpValidationHelper {
      */
     public static boolean validationResultHasError(LtpValidationResult result, List<LtpValidationCondition> conditions,
             LtpValidationConditionSeverity generalErrorSeverity) {
-        if (generalErrorSeverity == LtpValidationConditionSeverity.ERROR && result.getErrors().size() > 0) {
+        if (generalErrorSeverity == LtpValidationConditionSeverity.ERROR && !result.getErrors().isEmpty()) {
             return true;
         }
         return IntStream.range(0, Math.min(result.getConditionResults().size(), conditions.size()))

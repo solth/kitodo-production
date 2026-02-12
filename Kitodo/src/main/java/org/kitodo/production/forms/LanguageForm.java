@@ -113,7 +113,7 @@ public class LanguageForm implements Serializable {
         Iterator<Locale> localesIterator = FacesContext.getCurrentInstance().getApplication().getSupportedLocales();
         while (localesIterator.hasNext()) {
             Locale supportedLocale = localesIterator.next();
-            if (supportedLocale.getLanguage().length() > 0) {
+            if (!supportedLocale.getLanguage().isEmpty()) {
                 Map<String, Object> translation = new HashMap<>();
                 translation.put("id", supportedLocale.toString());
                 translation.put("displayLanguageSelf", supportedLocale.getDisplayLanguage(supportedLocale));

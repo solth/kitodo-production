@@ -316,7 +316,7 @@ public class UserService extends BaseBeanService<User, UserDAO> implements UserD
     private boolean isLoginFoundOnBlackList(BufferedReader reader, String login) throws IOException {
         String notAllowedLogin;
         while ((notAllowedLogin = reader.readLine()) != null) {
-            if (notAllowedLogin.length() > 0 && login.equalsIgnoreCase(notAllowedLogin)) {
+            if (!notAllowedLogin.isEmpty() && login.equalsIgnoreCase(notAllowedLogin)) {
                 return true;
             }
         }

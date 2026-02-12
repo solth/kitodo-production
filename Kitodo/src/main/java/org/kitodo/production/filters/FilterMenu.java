@@ -345,7 +345,7 @@ public class FilterMenu {
         parsedFilters.clear();
         List<String> plainFilters = List.of(filterString.split(" ?\"| (?=\\|)|(?<=\\|) "));
         for (String plainFilter : plainFilters) {
-            if (plainFilter.replaceAll("\\s", "").length() > 0) {
+            if (!plainFilter.replaceAll("\\s", "").isEmpty()) {
                 parsedFilters.add(new ParsedFilter(plainFilter));
             }
         }
@@ -357,7 +357,7 @@ public class FilterMenu {
     public void submitFilters() {
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
         filterInEditMode = params.get("input");
-        if (filterInEditMode.length() > 0) {
+        if (!filterInEditMode.isEmpty()) {
             addParsedFilter(filterInEditMode);
             filterInEditMode = "";
             updateSuggestions("");
@@ -390,7 +390,7 @@ public class FilterMenu {
     public void updateFilters() {
         StringBuilder newFilter = new StringBuilder();
         for (ParsedFilter parsedFilter : parsedFilters) {
-            if (newFilter.length() > 0) {
+            if (!newFilter.isEmpty()) {
                 newFilter.append(" ");
             }
             newFilter.append(parsedFilter.getPlainFilter());

@@ -297,19 +297,19 @@ public class FilterService extends BaseBeanService<Filter, FilterDAO> {
             if (glyph == '"') {
                 inQuotes = !inQuotes;
             } else if (!inQuotes && glyph <= ' ') {
-                if (tokenCollector.length() > 0) {
+                if (!tokenCollector.isEmpty()) {
                     userSpecifiedFilters.addAll(parseParentheses(tokenCollector, indexed));
                     tokenCollector = new StringBuilder();
                 }
             } else {
                 // add characters, but no spaces at the beginning
-                if (tokenCollector.length() > 0 || glyph > ' ') {
+                if (!tokenCollector.isEmpty() || glyph > ' ') {
                     tokenCollector.appendCodePoint(glyph);
                 }
             }
         }
         trimRight(tokenCollector);
-        if (tokenCollector.length() > 0) {
+        if (!tokenCollector.isEmpty()) {
             UserSpecifiedFilter userSpecifiedFilter = parseQueryPart(tokenCollector.toString(), indexed);
             if (Objects.nonNull(userSpecifiedFilter)) {
                 userSpecifiedFilters.add(userSpecifiedFilter);
@@ -342,19 +342,19 @@ public class FilterService extends BaseBeanService<Filter, FilterDAO> {
             } else if (glyph == ')' && inParentheses) {
                 inParentheses = !inParentheses;
             } else if (!inParentheses && glyph == '|') {
-                if (tokenCollector.length() > 0) {
+                if (!tokenCollector.isEmpty()) {
                     trimRight(tokenCollector);
                     queryElements.add(parseQueryPart(tokenCollector.toString(), indexed));
                     tokenCollector = new StringBuilder();
                 }
             } else {
                 // no spaces at the beginning
-                if (tokenCollector.length() > 0 || glyph > ' ') {
+                if (!tokenCollector.isEmpty() || glyph > ' ') {
                     tokenCollector.appendCodePoint(glyph);
                 }
             }
         }
-        if (tokenCollector.length() > 0) {
+        if (!tokenCollector.isEmpty()) {
             trimRight(tokenCollector);
             queryElements.add(parseQueryPart(tokenCollector.toString(), indexed));
         }

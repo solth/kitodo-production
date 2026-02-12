@@ -54,7 +54,7 @@ public class KitodoJhoveRepInfoParser {
             Map<String, String> propertyMap, Stack<Pair<String, Property>> stack) {
         if (propertyValue instanceof List<?>) {
             List<?> valueList = (List<?>) propertyValue;
-            if (valueList.size() > 0) {
+            if (!valueList.isEmpty()) {
                 if (valueList.get(0) instanceof Property) {
                     for (Object p : ((List<?>) propertyValue)) {
                         stack.add(Pair.of(propertyKey, (Property) p));
@@ -118,7 +118,7 @@ public class KitodoJhoveRepInfoParser {
             stack.add(Pair.of(entry.getKey(), entry.getValue()));
         }
 
-        while (stack.size() > 0) {
+        while (!stack.isEmpty()) {
             Pair<String, Property> entry = stack.pop();
             PropertyArity propertyArity = entry.getRight().getArity();
             String propertyKey = entry.getRight().getName();

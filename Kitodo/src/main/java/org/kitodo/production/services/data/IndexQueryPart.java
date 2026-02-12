@@ -107,7 +107,7 @@ class IndexQueryPart implements UserSpecifiedFilter {
         if (lookfor.size() == 1) {
             restrictions.add(varName + "." + idField + (operand ? " IN (:" : " NOT IN (:") + parameterName + ')');
             indexQueries.put(parameterName, Pair.of(filterField, lookfor.get(0)));
-        } else if (lookfor.size() >= 1) {
+        } else if (!lookfor.isEmpty()) {
             int queryCount = 0;
             for (String lookingFor : lookfor) {
                 queryCount++;

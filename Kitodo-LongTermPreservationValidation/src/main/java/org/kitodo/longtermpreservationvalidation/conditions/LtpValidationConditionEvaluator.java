@@ -138,7 +138,7 @@ public class LtpValidationConditionEvaluator {
      */
     private static LtpValidationConditionResult evaluateOneOfCondition(String value,
             LtpValidationConditionInterface condition) {
-        if (Objects.isNull(condition.getValues()) || condition.getValues().size() == 0) {
+        if (Objects.isNull(condition.getValues()) || condition.getValues().isEmpty()) {
             return getConditionIncorrectNumberOfValuesResult(value);
         }
 
@@ -161,7 +161,7 @@ public class LtpValidationConditionEvaluator {
      */
     private static LtpValidationConditionResult evaluateNoneOfCondition(String value,
             LtpValidationConditionInterface condition) {
-        if (Objects.isNull(condition.getValues()) || condition.getValues().size() == 0) {
+        if (Objects.isNull(condition.getValues()) || condition.getValues().isEmpty()) {
             return getConditionIncorrectNumberOfValuesResult(value);
         }
 
@@ -299,7 +299,7 @@ public class LtpValidationConditionEvaluator {
      */
     private static LtpValidationConditionResult evaluateNonEmptyCondition(String value,
             LtpValidationConditionInterface condition) {
-        if (Objects.nonNull(condition.getValues()) && condition.getValues().size() > 0) {
+        if (Objects.nonNull(condition.getValues()) && !condition.getValues().isEmpty()) {
             return getConditionIncorrectNumberOfValuesResult(value);
         }
 

@@ -350,7 +350,7 @@ public class IndividualIssue {
     @Override
     public String toString() {
         try {
-            if (issue.getHeading().length() == 0) {
+            if (issue.getHeading().isEmpty()) {
                 return date.toString();
             } else {
                 return date.toString() + ", " + issue.getHeading();

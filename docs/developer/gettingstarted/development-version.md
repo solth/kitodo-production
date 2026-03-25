@@ -168,7 +168,7 @@ sudo chown -R tomcat8:tomcat8 /usr/local/kitodo/modules
 ```
 sudo chown tomcat8:tomcat8 kitodo-3.war
 sudo mv kitodo-3.war /var/lib/tomcat8/webapps/kitodo.war
-until curl -s GET "localhost:8080/kitodo/pages/login.jsf" | grep -q -o "KITODO.PRODUCTION" ; do sleep 1; done
+until curl -s GET "localhost:8080/kitodo/pages/login" | grep -q -o "KITODO.PRODUCTION" ; do sleep 1; done
 ```
 
 ### Login
@@ -180,7 +180,7 @@ until curl -s GET "localhost:8080/kitodo/pages/login.jsf" | grep -q -o "KITODO.P
 
 ### Index example data
 
-Menu System: <http://localhost:8080/kitodo/pages/system.jsf>
+Menu System: <http://localhost:8080/kitodo/pages/system>
 
 * Delete ElasticSearch index
 * Create ElasticSearch mapping
@@ -217,14 +217,14 @@ mv kitodo-production-main/Kitodo/target/kitodo-3*.war kitodo-3.war
 sudo chown tomcat8:tomcat8 kitodo-3.war
 sudo mv kitodo-3.war /var/lib/tomcat8/webapps/kitodo.war
 sleep 5
-until curl -s GET "localhost:8080/kitodo/pages/login.jsf" | grep -q -o "KITODO.PRODUCTION" ; do sleep 1; done
+until curl -s GET "localhost:8080/kitodo/pages/login" | grep -q -o "KITODO.PRODUCTION" ; do sleep 1; done
 ```
 
 Note: If the update provides new example data, it has to be copied from kitodo-production-main/Kitodo/... to /usr/local/kitodo/... manually.
 
 ### Reset index
 
-http://localhost:8080/kitodo/pages/system.jsf
+http://localhost:8080/kitodo/pages/system
 
 * Delete ElasticSearch index
 * Create ElasticSearch mapping

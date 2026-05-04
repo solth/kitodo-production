@@ -49,6 +49,7 @@ import org.kitodo.production.helper.tasks.TaskManager;
 import org.kitodo.production.model.Subfolder;
 import org.kitodo.production.services.ServiceManager;
 import org.kitodo.production.services.data.BeanQuery;
+import org.kitodo.production.services.data.MetadataService;
 import org.kitodo.production.services.data.ProcessService;
 import org.kitodo.production.services.dataformat.MetsService;
 import org.kitodo.production.services.file.FileService;
@@ -131,10 +132,8 @@ public class KitodoScriptService {
         }
     }
 
-    private boolean executeScript(List<Process> processes, String script)
-            throws DAOException, IOException, InvalidImagesException, MediaNotFoundException, SAXException,
-            FileStructureValidationException {
-        // call the correct method via the parameter
+    private boolean executeScript(List<Process> processes, String script) throws DAOException, IOException,
+            InvalidImagesException, MediaNotFoundException, SAXException, FileStructureValidationException {
         switch (this.parameters.get("action")) {
             case "importFromFileSystem":
                 importFromFileSystem(processes);
@@ -255,6 +254,9 @@ public class KitodoScriptService {
                 } catch (IllegalArgumentException e) {
                     Helper.setErrorMessage(e.getMessage());
                 }
+                break;
+            case "updateMetadata":
+                updateMetadata(processes);
                 break;
             default:
                 Helper.setErrorMessage("Unknown action",
@@ -828,6 +830,18 @@ public class KitodoScriptService {
             }
         } else {
             Helper.setErrorMessage("missing parameter: id");
+        }
+    }
+
+    private void updateMetadata(List<Process> processes) {
+        for (Process process : processes) {
+            logger.info("Updating metadata for process [{}]: {}", process.getId(), process.getTitle());
+            try {
+                MetadataService.updateMetadata(process);
+            } catch (Exception e) {
+                // TODO: handle or pass on specific exceptions individually
+                logger.error(e.getMessage());
+            }
         }
     }
 }

@@ -29,13 +29,11 @@ import org.kitodo.api.dataformat.Division;
 import org.kitodo.api.dataformat.LogicalDivision;
 import org.kitodo.data.database.beans.Process;
 import org.kitodo.exceptions.FileStructureValidationException;
-import org.kitodo.exceptions.InvalidMetadataValueException;
-import org.kitodo.production.forms.createprocess.ProcessDetail;
 import org.kitodo.production.helper.Helper;
 import org.kitodo.production.helper.MetadataComparison;
+import org.kitodo.production.services.data.MetadataService;
 import org.kitodo.production.services.dataeditor.DataEditorService;
 import org.primefaces.PrimeFaces;
-import org.primefaces.model.TreeNode;
 
 /**
  * Manages the dialog when a user clicks on the update metadata button.
@@ -139,7 +137,7 @@ public class UpdateMetadataDialog implements Serializable {
         if (dataEditor.getSelectedStructure().isPresent()) {
             setRecordIdentifier(dataEditor.getProcessRecordIdentifier());
             try {
-                HashSet<Metadata> existingMetadata = getMetadata(dataEditor.getMetadataPanel().getLogicalMetadataRows());
+                HashSet<Metadata> existingMetadata = MetadataService.getMetadata(dataEditor.getMetadataPanel().getLogicalMetadataRows());
                 metadataComparisons = DataEditorService.reimportCatalogMetadata(dataEditor.getProcess(), dataEditor.getWorkpiece(),
                         existingMetadata, dataEditor.getPriorityList(), dataEditor.getSelectedStructure().get().getType(), validate);
                 if (metadataComparisons.isEmpty()) {
@@ -158,13 +156,5 @@ public class UpdateMetadataDialog implements Serializable {
         } else {
             Helper.setErrorMessage("Unable to update metadata: no logical structure selected!");
         }
-    }
-
-    private HashSet<Metadata> getMetadata(TreeNode<Object> treeNode) throws InvalidMetadataValueException {
-        HashSet<Metadata> processDetails = new HashSet<>();
-        for (TreeNode<Object> child : treeNode.getChildren()) {
-            processDetails.addAll(((ProcessDetail) child.getData()).getMetadata(false));
-        }
-        return processDetails;
     }
 }

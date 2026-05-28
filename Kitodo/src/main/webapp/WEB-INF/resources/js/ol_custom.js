@@ -290,6 +290,9 @@ class KitodoDetailMap {
         if (image.length > 0) {
             image.on("load", this.onImageLoad.bind(this, image));
             image[0].src = image[0].src.replace(/&uuid=[a-z0-9]+/i, "") + "&uuid=" + KitodoDetailMap.randomUUID(8);
+            // FIXME: this does not work; no messages on console whatsoever
+            image.on("loadstart", () => console.log("image loading starts"));
+            image.on("loadend", () => console.log("image loading ends"));
         }
     }
 
@@ -369,6 +372,9 @@ class KitodoDetailMap {
         this.#map.on("rendercomplete", KitodoDetailMap.makeDebounced(this.onRenderComplete.bind(this)));
         this.#map.on("change", KitodoDetailMap.makeDebounced(this.saveCurrentView.bind(this)));
         this.#map.on("postrender", KitodoDetailMap.makeDebounced(this.saveCurrentView.bind(this)));
+        // FIXME: this does not work; no messages on console whatsoever
+        this.#map.on("imageloadstart", () => console.log("image loading - start"));
+        this.#map.on("imageloadend", () => console.log("image loading - end"));
     }
 
     /**

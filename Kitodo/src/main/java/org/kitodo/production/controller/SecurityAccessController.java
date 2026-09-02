@@ -771,6 +771,15 @@ public class SecurityAccessController {
     }
 
     /**
+     * Check if the current user has authority to view the status page.
+     *
+     * @return true if the current user has authority to view the status page
+     */
+    public boolean hasAuthorityToViewStatusPage() {
+        return securityAccessService.hasAuthorityToViewStatusPage();
+    }
+
+    /**
      * Check if current user has authority to view task manager page.
      *
      * @return true if user has authority to 'viewTaskManager' page.

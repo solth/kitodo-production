@@ -1083,6 +1083,15 @@ public class SecurityAccessService extends SecurityAccess {
     }
 
     /**
+     * Check if the current user has the authority to view the status page.
+     *
+     * @return true if the current user has the authority to view the status page
+     */
+    public boolean hasAuthorityToViewStatusPage() {
+        return hasAnyAuthorityGlobal("viewStatusPage");
+    }
+
+    /**
      * Check if the current user has the authority to view the task manager page.
      *
      * @return true if the current user has the authority to view the task manager page

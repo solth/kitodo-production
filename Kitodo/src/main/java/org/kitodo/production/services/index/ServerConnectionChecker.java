@@ -16,8 +16,14 @@ import static java.util.concurrent.TimeUnit.NANOSECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.http.util.EntityUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.elasticsearch.client.Request;
@@ -55,11 +61,15 @@ class ServerConnectionChecker implements Runnable {
                 indexingService.serverCheckThreadId = currentThread().threadId();
                 if (indexingService.serverCheckThreadId == currentThread().threadId()) {
                     clearId = true;
-                    indexingService.serverInformation = downloadServerInformation();
+                    Map<String, String> serverInformation = downloadServerInformation();
+                    indexingService.serverInformation = serverInformation.get("logMessage");
+                    JsonNode root = new ObjectMapper().readTree(serverInformation.get("responseEntity"));
+                    JsonNode versionNode = root.path("version");
+                    indexingService.serverVersion = versionNode.path("distribution").asText() + " - " + versionNode.path("number").asText();
                     indexingService.serverLastCheck = System.nanoTime();
                 }
             }
-        } catch (RuntimeException e) {
+        } catch (RuntimeException | JsonProcessingException e) {
             logger.error(e);
             indexingService.serverInformation = "";
             indexingService.serverLastCheck = System.nanoTime();
@@ -73,7 +83,8 @@ class ServerConnectionChecker implements Runnable {
     /**
      * Get search server information.
      */
-    private static String downloadServerInformation() {
+    private static Map<String, String> downloadServerInformation() {
+        HashMap<String, String> serverInformation = new HashMap<>();
         try {
             ElasticsearchBackend elasticsearchBackend = Search.mapping(HibernateUtil.getSession().getSessionFactory())
                     .backend()
@@ -82,19 +93,22 @@ class ServerConnectionChecker implements Runnable {
             RestClient restClient = elasticsearchBackend.client(RestClient.class);
             Request request = new Request("GET", "/");
             Response response = restClient.performRequest(request);
-            if (response.getStatusLine().getStatusCode() == 200) {
-                String serverInformation = String.format("Connection established to %s", response.getHost().toURI());
-                logger.info("Search server found: {}", serverInformation);
-                return serverInformation;
+            serverInformation.put("statusCode", String.valueOf(response.getStatusLine().getStatusCode()));
+            if ("200".equals(serverInformation.get("statusCode"))) {
+                String uri = response.getHost().toURI();
+                String logMessage = String.format("Connection established to %s", uri);
+                logger.info("Search server found: {}", logMessage);
+                serverInformation.put("logMessage", logMessage);
+                serverInformation.put("uri", uri);
+                serverInformation.put("responseEntity", EntityUtils.toString(response.getEntity()));
             } else {
                 String message = String.format("Error connecting to Elasticsearch server: %s",
                         response.getStatusLine().getReasonPhrase());
                 logger.error(message);
-                return "";
             }
         } catch (IOException e) {
             logger.error("searchServerNotRunning", e);
         }
-        return "";
+        return serverInformation;
     }
 }

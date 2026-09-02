@@ -25,6 +25,7 @@ import jakarta.jms.MessageProducer;
 import jakarta.jms.Session;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
+import org.apache.activemq.ActiveMQConnectionMetaData;
 import org.apache.activemq.ActiveMQSslConnectionFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -188,6 +189,27 @@ public class ActiveMQDirector implements Runnable {
      */
     public static Session getSession() {
         return session;
+    }
+
+    /**
+     * Returns the version of the Active MQ server. This is used to display the version in the GUI.
+     * If the connection to the server is not established, an empty string is returned
+     *
+     * @return the version of the Active MQ server or an empty string if the connection is not established
+     */
+    public static String getActiveMqVersion() {
+        if (Objects.nonNull(connection)) {
+            String activeMqInformation;
+            try {
+                ActiveMQConnectionMetaData metadata =
+                        (ActiveMQConnectionMetaData) connection.getMetaData();
+                activeMqInformation = metadata.getJMSProviderName() + " - " + metadata.getProviderVersion();
+            } catch (JMSException e) {
+                throw new RuntimeException(e);
+            }
+            return activeMqInformation;
+        }
+        return "";
     }
 
     /**

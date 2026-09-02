@@ -31,6 +31,7 @@ import org.kitodo.data.database.beans.Process;
 import org.kitodo.data.database.exceptions.DAOException;
 import org.kitodo.data.database.persistence.HibernateUtil;
 import org.kitodo.production.helper.Helper;
+import org.kitodo.production.helper.SystemStatus;
 import org.kitodo.production.services.ServiceManager;
 import org.kitodo.production.services.data.BeanQuery;
 import org.kitodo.production.services.data.IndexQueryTerm;
@@ -42,6 +43,9 @@ public class IndexingService {
     private static volatile IndexingService instance = null;
 
     String serverInformation;
+    String serverDistribution;
+    String serverVersion;
+    String serverHealth;
     long serverLastCheck;
     long serverCheckThreadId;
 
@@ -225,5 +229,20 @@ public class IndexingService {
             // Index temporarily not available, just return 0
             return 0;
         }
+    }
+
+    public String getServerVersion() {
+        return serverVersion;
+    }
+
+    public String getServerHealth() {
+        if (Objects.equals(serverHealth, "green")) {
+            return SystemStatus.STATUS_HEALTHY;
+        } else if (Objects.equals(serverHealth, "yellow")) {
+            return SystemStatus.STATUS_WARNING;
+        } else if (Objects.equals(serverHealth, "red")) {
+            return SystemStatus.STATUS_CRITICAL;
+        }
+        return serverHealth;
     }
 }

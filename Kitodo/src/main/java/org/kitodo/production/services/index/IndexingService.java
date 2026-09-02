@@ -42,6 +42,8 @@ public class IndexingService {
     private static volatile IndexingService instance = null;
 
     String serverInformation;
+    String serverDistribution;
+    String serverVersion;
     long serverLastCheck;
     long serverCheckThreadId;
 
@@ -221,5 +223,9 @@ public class IndexingService {
             // Index temporarily not available, just return 0
             return 0;
         }
+    }
+
+    public String getServerVersion() {
+        return serverVersion;
     }
 }

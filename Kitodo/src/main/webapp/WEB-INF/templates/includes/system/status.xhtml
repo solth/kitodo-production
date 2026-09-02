@@ -1,0 +1,46 @@
+<!--
+ *
+ * (c) Kitodo. Key to digital objects e. V. <contact@kitodo.org>
+ *
+ * This file is part of the Kitodo project.
+ *
+ * It is licensed under GNU General Public License version 3 or later.
+ *
+ * For the full copyright and license information, please read the
+ * GPL3-License.txt file that was distributed with this source code.
+ *
+-->
+
+<ui:composition
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:p="http://primefaces.org/ui">
+
+    <p:dataTable id="componentTable"
+                 rows="#{SystemStatus.components.size()}"
+                 value="#{SystemStatus.components}"
+                 var="systemComponent">
+        <p:column headerText="#{msgs.component}"
+                  id="componentName">
+            <h:outputText value="#{systemComponent.key}"/>
+        </p:column>
+        <p:column headerText="#{msgs.version}"
+                  id="componentVersion">
+            <h:outputText value="#{systemComponent.value}"/>
+        </p:column>
+        <!-- TODO: implement retrieving actual status of individual components -->
+        <p:column headerText="#{msgs.status}"
+                  id="componentStatus">
+            <h:outputText value="OK"/>
+        </p:column>
+    </p:dataTable>
+
+    <h:form id="statusUpdateForm">
+        <p:commandButton id="updateStatusButton"
+                         style="margin: var(--default-full-size)"
+                         action="#{SystemStatus.updateStatus()}"
+                         update="systemTabView:componentTable"
+                         value="#{msgs.update}"/>
+    </h:form>
+
+</ui:composition>

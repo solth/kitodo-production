@@ -11,18 +11,6 @@
 
 package org.kitodo.production.helper;
 
-import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.faces.context.FacesContext;
-import jakarta.inject.Named;
-import jakarta.servlet.ServletContext;
-import org.hibernate.Session;
-import org.kitodo.config.ConfigCore;
-import org.kitodo.config.KitodoConfig;
-import org.kitodo.config.enums.ParameterCore;
-import org.kitodo.data.database.persistence.HibernateUtil;
-import org.kitodo.production.services.ServiceManager;
-import org.kitodo.production.services.index.IndexingService;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -34,6 +22,18 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.faces.context.FacesContext;
+import jakarta.inject.Named;
+import jakarta.servlet.ServletContext;
+
+import org.hibernate.Session;
+import org.kitodo.config.ConfigCore;
+import org.kitodo.config.KitodoConfig;
+import org.kitodo.config.enums.ParameterCore;
+import org.kitodo.data.database.persistence.HibernateUtil;
+import org.kitodo.production.services.ServiceManager;
+import org.kitodo.production.services.index.IndexingService;
 
 @Named("SystemStatus")
 @ApplicationScoped

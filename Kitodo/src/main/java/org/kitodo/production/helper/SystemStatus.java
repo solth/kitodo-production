@@ -13,27 +13,13 @@ package org.kitodo.production.helper;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.sql.DatabaseMetaData;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.NoSuchElementException;
 import java.util.Objects;
-import java.util.Set;
-
-import javax.management.AttributeNotFoundException;
-import javax.management.InstanceNotFoundException;
-import javax.management.MBeanException;
-import javax.management.MBeanServerConnection;
-import javax.management.MalformedObjectNameException;
-import javax.management.ObjectName;
-import javax.management.ReflectionException;
-import javax.management.remote.JMXConnector;
-import javax.management.remote.JMXConnectorFactory;
-import javax.management.remote.JMXServiceURL;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.faces.context.FacesContext;
@@ -41,10 +27,9 @@ import jakarta.inject.Named;
 import jakarta.servlet.ServletContext;
 
 import org.hibernate.Session;
-import org.kitodo.config.ConfigCore;
 import org.kitodo.config.KitodoConfig;
-import org.kitodo.config.enums.ParameterCore;
 import org.kitodo.data.database.persistence.HibernateUtil;
+import org.kitodo.production.interfaces.activemq.ActiveMQDirector;
 import org.kitodo.production.services.ServiceManager;
 import org.kitodo.production.services.index.IndexingService;
 
@@ -121,26 +106,6 @@ public class SystemStatus {
     }
 
     private String getActiveMqInformation() {
-        String activeMqInformation;
-        try {
-            String activeMqHostUrl = ConfigCore.getParameter(ParameterCore.ACTIVE_MQ_HOST_URL);
-            JMXServiceURL jmxServiceURL = new JMXServiceURL(activeMqHostUrl);
-            try (JMXConnector jmxConnector = JMXConnectorFactory.connect(jmxServiceURL)) {
-                MBeanServerConnection mBeanServerConnection = jmxConnector.getMBeanServerConnection();
-                Set<ObjectName> brokerNamen = mBeanServerConnection.queryNames(new ObjectName("org.apache.activemq:type=Broker,brokerName=*"), null);
-                activeMqInformation = "not running";
-                for (ObjectName brokerName : brokerNamen) {
-                    activeMqInformation = (String) mBeanServerConnection.getAttribute(brokerName, "BrokerVersion");
-                }
-            } catch (MalformedObjectNameException | IOException | MBeanException | AttributeNotFoundException
-                     | InstanceNotFoundException | ReflectionException e) {
-                activeMqInformation = e.getMessage();
-            }
-        } catch (NoSuchElementException e) {
-            activeMqInformation = "not configured";
-        } catch (MalformedURLException ex) {
-            activeMqInformation = ex.getMessage();
-        }
-        return activeMqInformation;
+        return ActiveMQDirector.getActiveMqVersion();
     }
 }

@@ -24,6 +24,17 @@ import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.Set;
 
+import javax.management.AttributeNotFoundException;
+import javax.management.InstanceNotFoundException;
+import javax.management.MBeanException;
+import javax.management.MBeanServerConnection;
+import javax.management.MalformedObjectNameException;
+import javax.management.ObjectName;
+import javax.management.ReflectionException;
+import javax.management.remote.JMXConnector;
+import javax.management.remote.JMXConnectorFactory;
+import javax.management.remote.JMXServiceURL;
+
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.faces.context.FacesContext;
 import jakarta.inject.Named;
@@ -36,17 +47,6 @@ import org.kitodo.config.enums.ParameterCore;
 import org.kitodo.data.database.persistence.HibernateUtil;
 import org.kitodo.production.services.ServiceManager;
 import org.kitodo.production.services.index.IndexingService;
-
-import javax.management.AttributeNotFoundException;
-import javax.management.InstanceNotFoundException;
-import javax.management.MBeanException;
-import javax.management.MBeanServerConnection;
-import javax.management.MalformedObjectNameException;
-import javax.management.ObjectName;
-import javax.management.ReflectionException;
-import javax.management.remote.JMXConnector;
-import javax.management.remote.JMXConnectorFactory;
-import javax.management.remote.JMXServiceURL;
 
 @Named("SystemStatus")
 @ApplicationScoped
@@ -132,8 +132,8 @@ public class SystemStatus {
                 for (ObjectName brokerName : brokerNamen) {
                     activeMqInformation = (String) mBeanServerConnection.getAttribute(brokerName, "BrokerVersion");
                 }
-            } catch (MalformedObjectNameException | IOException | MBeanException | AttributeNotFoundException |
-                     InstanceNotFoundException | ReflectionException e) {
+            } catch (MalformedObjectNameException | IOException | MBeanException | AttributeNotFoundException
+                     | InstanceNotFoundException | ReflectionException e) {
                 activeMqInformation = e.getMessage();
             }
         } catch (NoSuchElementException e) {

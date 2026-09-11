@@ -74,7 +74,7 @@ public class SystemStatus {
             components.put(Helper.getTranslation("status.searchServer"), indexingService.getServerVersion());
             components.put(Helper.getTranslation("status.fileSystem"), getFileSystemType());
             components.put(Helper.getTranslation("status.diskUsage"), getDiskUsage());
-            components.put(Helper.getTranslation("status.activeMq"), getActiveMqInformation());
+            components.put(Helper.getTranslation("status.activeMq"), ActiveMQDirector.getActiveMqVersion());
         }
     }
 
@@ -103,9 +103,5 @@ public class SystemStatus {
             }
         }
         return databaseVersion;
-    }
-
-    private String getActiveMqInformation() {
-        return ActiveMQDirector.getActiveMqVersion();
     }
 }

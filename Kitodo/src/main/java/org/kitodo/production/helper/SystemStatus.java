@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.sql.DatabaseMetaData;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -39,7 +39,7 @@ import org.kitodo.production.services.index.IndexingService;
 @ApplicationScoped
 public class SystemStatus {
 
-    private final Map<String, String> components = new HashMap<>();
+    private final Map<String, String> components = new LinkedHashMap<>();
     IndexingService indexingService = ServiceManager.getIndexingService();
     String databaseVersion;
     private final Path kitodoDataDirectory = Path.of(KitodoConfig.getKitodoDataDirectory());

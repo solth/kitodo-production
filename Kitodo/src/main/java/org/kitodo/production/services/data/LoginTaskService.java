@@ -127,7 +127,7 @@ public class LoginTaskService extends BaseBeanService<LoginTask, LoginTaskDAO> {
             Optional<LoginTask> task = tasks.stream().filter(t -> t.getType().equals(type)).findFirst();
             if (task.isPresent()) {
                 return task;
-            };
+            }
         }
 
         return Optional.empty();

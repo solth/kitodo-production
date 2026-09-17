@@ -719,7 +719,7 @@ public class ProcessFieldedMetadata extends ProcessDetail implements Serializabl
         String simpleValue = processDetail.extractSimpleValue();
         if (!processDetail.getSettings().isValid(simpleValue, getListForLeadingMetadataFields())) {
             throw new InvalidMetadataValueException(key, simpleValue);
-        };
+        }
         if (simpleValue == null) {
             return;
         }

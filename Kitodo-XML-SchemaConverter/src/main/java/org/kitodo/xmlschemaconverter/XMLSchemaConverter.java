@@ -56,8 +56,7 @@ public class XMLSchemaConverter implements SchemaConverterInterface {
                     + " to " + targetFileFormat + "!");
         }
 
-        if (record.getOriginalData() instanceof String) {
-            String xmlString = (String)record.getOriginalData();
+        if (record.getOriginalData() instanceof String xmlString) {
             String conversionResult;
 
             if (mappingFiles.isEmpty()) {

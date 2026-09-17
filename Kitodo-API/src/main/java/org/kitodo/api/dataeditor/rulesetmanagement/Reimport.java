@@ -36,5 +36,5 @@ public enum Reimport {
      * The existing metadata should be replaced.
      */
     @XmlEnumValue("replace")
-    REPLACE;
+    REPLACE
 }

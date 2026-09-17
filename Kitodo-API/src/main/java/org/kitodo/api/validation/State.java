@@ -16,5 +16,5 @@ public enum State {
 
     SUCCESS,
     WARNING,
-    ERROR;
+    ERROR
 }

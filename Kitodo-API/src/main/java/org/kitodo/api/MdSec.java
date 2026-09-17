@@ -44,5 +44,5 @@ public enum MdSec {
      * Metadata that is necessary for the technical processing in any way and
      * therefore needs to be stored somewhere.
      */
-    TECH_MD;
+    TECH_MD
 }

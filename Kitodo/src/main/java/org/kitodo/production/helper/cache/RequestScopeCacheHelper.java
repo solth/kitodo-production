@@ -76,7 +76,7 @@ public class RequestScopeCacheHelper {
                 if (Objects.nonNull(value)) {
                     cache.put(key, value);
                 }
-            };
+            }
             return clazz.cast(cache.get(key));
         }
         // cache not available, e.g., when called outside of request scope (in a background process)

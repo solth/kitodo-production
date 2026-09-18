@@ -4581,10 +4581,6 @@ User edit form
 System page
 ----------------------------------------------------------------------*/
 
-.inactive {
-    color: var(--medium-gray);
-}
-
 #systemTabView\:migrationForm\:aggregatedTasksTable > .ui-datatable-tablewrapper > table {
     table-layout: auto;
 }

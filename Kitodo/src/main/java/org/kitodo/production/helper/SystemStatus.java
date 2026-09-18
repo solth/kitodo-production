@@ -29,6 +29,7 @@ import org.hibernate.Session;
 import org.kitodo.config.ConfigCore;
 import org.kitodo.config.KitodoConfig;
 import org.kitodo.config.enums.ParameterCore;
+import org.kitodo.data.database.exceptions.DAOException;
 import org.kitodo.data.database.persistence.HibernateUtil;
 import org.kitodo.production.interfaces.activemq.ActiveMQDirector;
 import org.kitodo.production.services.ServiceManager;
@@ -135,8 +136,13 @@ public class SystemStatus {
 
     private SystemComponent getLdapInformation() {
         SystemComponent ldapComponent = new SystemComponent(Helper.getTranslation("status.ldap"));
-        if (ConfigCore.getOptionalString(ParameterCore.LDAP_USE).isEmpty()) {
+        try {
+            if (ConfigCore.getOptionalString(ParameterCore.LDAP_USE).isEmpty() || ServiceManager.getLdapServerService().count() == 0) {
+                ldapComponent.setConfigured(false);
+            }
+        } catch (DAOException e) {
             ldapComponent.setConfigured(false);
+            Helper.setErrorMessage(e);
         }
         return ldapComponent;
     }

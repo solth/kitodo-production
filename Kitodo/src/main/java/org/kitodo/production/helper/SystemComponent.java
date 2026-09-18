@@ -18,8 +18,8 @@ package org.kitodo.production.helper;
 public class SystemComponent {
 
     private String componentName;
-    private String componentVersion;
-    private String componentHealth;
+    private String componentVersion = "N/A";
+    private String componentHealth = "N/A";
     private boolean configured = true;
 
     public SystemComponent(String componentName) {

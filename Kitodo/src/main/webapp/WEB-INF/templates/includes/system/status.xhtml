@@ -16,24 +16,23 @@
         xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
         xmlns:p="http://primefaces.org/ui">
 
+    <!--@elvariable id="systemComponent" type="org.kitodo.production.helper.SystemComponent"-->
     <p:dataTable id="componentTable"
                  rows="#{SystemStatus.components.size()}"
                  value="#{SystemStatus.components}"
-                 var="systemComponent">
+                 var="systemComponent"
+                 rowStyleClass="#{systemComponent.configured ? '' : 'deactivated'}">
         <p:column headerText="#{msgs.component}"
                   id="componentName">
-            <h:outputText value="#{systemComponent.componentName}"
-                          styleClass="#{systemComponent.configured ? '' : 'inactive'}"/>
+            <h:outputText value="#{systemComponent.componentName}"/>
         </p:column>
         <p:column headerText="#{msgs.version}"
                   id="componentVersion">
-            <h:outputText value="#{systemComponent.componentVersion}"
-                          styleClass="#{systemComponent.configured ? '' : 'inactive'}"/>
+            <h:outputText value="#{systemComponent.componentVersion}"/>
         </p:column>
         <p:column headerText="#{msgs.status}"
                   id="componentStatus">
-            <h:outputText value="#{systemComponent.componentHealth}"
-                          styleClass="#{systemComponent.configured ? '' : 'inactive'}"/>
+            <h:outputText value="#{systemComponent.componentHealth}"/>
         </p:column>
     </p:dataTable>
 

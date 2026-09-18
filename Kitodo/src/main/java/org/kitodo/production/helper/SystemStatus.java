@@ -33,6 +33,9 @@ import org.kitodo.data.database.persistence.HibernateUtil;
 import org.kitodo.production.interfaces.activemq.ActiveMQDirector;
 import org.kitodo.production.services.ServiceManager;
 
+/**
+ * This class is used to check the status of system components and provide information about them.
+ */
 @Named("SystemStatus")
 @ApplicationScoped
 public class SystemStatus {

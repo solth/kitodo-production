@@ -104,7 +104,8 @@ public class SystemStatus {
         try (Session session = HibernateUtil.getSession()) {
             session.doWork(connection -> {
                 DatabaseMetaData databaseMetaData = connection.getMetaData();
-                databaseComponent.setComponentVersion(databaseMetaData.getDatabaseProductName() + " - " + databaseMetaData.getDatabaseProductVersion());
+                databaseComponent.setComponentVersion(databaseMetaData.getDatabaseProductName() + " - "
+                        + databaseMetaData.getDatabaseProductVersion());
             });
         }
         return databaseComponent;

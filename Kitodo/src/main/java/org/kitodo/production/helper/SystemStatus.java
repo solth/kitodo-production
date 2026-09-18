@@ -16,9 +16,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.sql.DatabaseMetaData;
-import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 import jakarta.enterprise.context.ApplicationScoped;
@@ -27,19 +26,18 @@ import jakarta.inject.Named;
 import jakarta.servlet.ServletContext;
 
 import org.hibernate.Session;
+import org.kitodo.config.ConfigCore;
 import org.kitodo.config.KitodoConfig;
+import org.kitodo.config.enums.ParameterCore;
 import org.kitodo.data.database.persistence.HibernateUtil;
 import org.kitodo.production.interfaces.activemq.ActiveMQDirector;
 import org.kitodo.production.services.ServiceManager;
-import org.kitodo.production.services.index.IndexingService;
 
 @Named("SystemStatus")
 @ApplicationScoped
 public class SystemStatus {
 
-    private final Map<String, String> components = new LinkedHashMap<>();
-    IndexingService indexingService = ServiceManager.getIndexingService();
-    String databaseVersion;
+    private final LinkedList<SystemComponent> components = new LinkedList<>();
     private final Path kitodoDataDirectory = Path.of(KitodoConfig.getKitodoDataDirectory());
 
     /**
@@ -47,11 +45,11 @@ public class SystemStatus {
      *
      * @return value of components
      */
-    public List<Map.Entry<String, String>> getComponents() {
+    public List<SystemComponent> getComponents() {
         if (components.isEmpty()) {
             checkComponentStatus();
         }
-        return components.entrySet().stream().toList();
+        return components;
     }
 
     /**
@@ -64,25 +62,33 @@ public class SystemStatus {
     // TODO: move private methods and business logic to service classes
 
     private void checkComponentStatus() {
-        FacesContext facesContext = FacesContext.getCurrentInstance();
-        databaseVersion = null;
         components.clear();
-        if (Objects.nonNull(facesContext)) {
-            ServletContext servletContext = (ServletContext) facesContext.getExternalContext().getContext();
-            components.put(Helper.getTranslation("status.database"), getDatabaseVersion());
-            components.put(Helper.getTranslation("status.server"), servletContext.getServerInfo());
-            components.put(Helper.getTranslation("status.searchServer"), indexingService.getServerVersion());
-            components.put(Helper.getTranslation("status.fileSystem"), getFileSystemType());
-            components.put(Helper.getTranslation("status.diskUsage"), getDiskUsage());
-            components.put(Helper.getTranslation("status.activeMq"), ActiveMQDirector.getActiveMqVersion());
-        }
+        components.add(getWebServerInformation());
+        components.add(getDatabaseInformation());
+        components.add(getSearchServerInformation());
+        components.add(getFileSystemInformation());
+        components.add(getActiveMqInformation());
+        components.add(getLdapInformation());
     }
 
-    private String getDiskUsage() {
+    private SystemComponent getWebServerInformation() {
+        SystemComponent webServerComponent = new SystemComponent(Helper.getTranslation("status.server"));
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        if (Objects.nonNull(facesContext)) {
+            ServletContext servletContext = (ServletContext) facesContext.getExternalContext().getContext();
+            webServerComponent.setComponentVersion(servletContext.getServerInfo());
+        }
+        return webServerComponent;
+    }
+
+    private SystemComponent getFileSystemInformation() {
+        SystemComponent diskUsageComponent = new SystemComponent(Helper.getTranslation("status.fileSystem"));
         File kitodoDirectory = new File(KitodoConfig.getKitodoDataDirectory());
         String freeSpace = String.format("%.2f", kitodoDirectory.getFreeSpace() / 1073741824.0);
         String totalSpace = String.format("%.2f GB", kitodoDirectory.getTotalSpace() / 1073741824.0);
-        return freeSpace + " / " + totalSpace;
+        diskUsageComponent.setComponentVersion(getFileSystemType());
+        diskUsageComponent.setComponentHealth(freeSpace + " / " + totalSpace + " " + Helper.getTranslation("status.diskUsage"));
+        return diskUsageComponent;
     }
 
     private String getFileSystemType() {
@@ -93,15 +99,41 @@ public class SystemStatus {
         }
     }
 
-    private String getDatabaseVersion() {
-        if (Objects.isNull(databaseVersion)) {
-            try (Session session = HibernateUtil.getSession()) {
-                session.doWork(connection -> {
-                    DatabaseMetaData databaseMetaData = connection.getMetaData();
-                    databaseVersion = databaseMetaData.getDatabaseProductName() + " - " + databaseMetaData.getDatabaseProductVersion();
-                });
-            }
+    private SystemComponent getDatabaseInformation() {
+        SystemComponent databaseComponent = new SystemComponent(Helper.getTranslation("status.database"));
+        try (Session session = HibernateUtil.getSession()) {
+            session.doWork(connection -> {
+                DatabaseMetaData databaseMetaData = connection.getMetaData();
+                databaseComponent.setComponentVersion(databaseMetaData.getDatabaseProductName() + " - " + databaseMetaData.getDatabaseProductVersion());
+            });
         }
-        return databaseVersion;
+        return databaseComponent;
+    }
+
+    private SystemComponent getSearchServerInformation() {
+        SystemComponent searchServerComponent = new SystemComponent(Helper.getTranslation("status.searchServer"));
+        searchServerComponent.setComponentVersion(ServiceManager.getIndexingService().getServerVersion());
+        searchServerComponent.setComponentHealth(ServiceManager.getIndexingService().getServerHealth());
+        return searchServerComponent;
+    }
+
+    // Optional system components: checks, whether they are configured at all or not
+
+    private SystemComponent getActiveMqInformation() {
+        SystemComponent activeMqComponent = new SystemComponent(Helper.getTranslation("status.activeMq"));
+        if (ConfigCore.getOptionalString(ParameterCore.ACTIVE_MQ_HOST_URL).isEmpty()) {
+            activeMqComponent.setConfigured(false);
+        } else {
+            activeMqComponent.setComponentVersion(ActiveMQDirector.getActiveMqVersion());
+        }
+        return activeMqComponent;
+    }
+
+    private SystemComponent getLdapInformation() {
+        SystemComponent ldapComponent = new SystemComponent(Helper.getTranslation("status.ldap"));
+        if (ConfigCore.getOptionalString(ParameterCore.LDAP_USE).isEmpty()) {
+            ldapComponent.setConfigured(false);
+        }
+        return ldapComponent;
     }
 }

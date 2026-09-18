@@ -22,16 +22,18 @@
                  var="systemComponent">
         <p:column headerText="#{msgs.component}"
                   id="componentName">
-            <h:outputText value="#{systemComponent.key}"/>
+            <h:outputText value="#{systemComponent.componentName}"
+                          styleClass="#{systemComponent.configured ? '' : 'inactive'}"/>
         </p:column>
         <p:column headerText="#{msgs.version}"
                   id="componentVersion">
-            <h:outputText value="#{systemComponent.value}"/>
+            <h:outputText value="#{systemComponent.componentVersion}"
+                          styleClass="#{systemComponent.configured ? '' : 'inactive'}"/>
         </p:column>
-        <!-- TODO: implement retrieving actual status of individual components -->
         <p:column headerText="#{msgs.status}"
                   id="componentStatus">
-            <h:outputText value="OK"/>
+            <h:outputText value="#{systemComponent.componentHealth}"
+                          styleClass="#{systemComponent.configured ? '' : 'inactive'}"/>
         </p:column>
     </p:dataTable>
 

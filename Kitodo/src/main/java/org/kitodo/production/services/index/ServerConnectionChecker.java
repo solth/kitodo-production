@@ -24,6 +24,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+import org.apache.http.HttpEntity;
 import org.apache.http.util.EntityUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -68,6 +69,8 @@ class ServerConnectionChecker implements Runnable {
                     JsonNode versionNode = root.path("version");
                     indexingService.serverVersion = versionNode.path("distribution").asText() + " - " + versionNode.path("number").asText();
                     indexingService.serverLastCheck = System.nanoTime();
+                    JsonNode healthRoot = new ObjectMapper().readTree(serverInformation.get("healthStatusResponseEntity"));
+                    indexingService.serverHealth = healthRoot.path("status").asText();
                 }
             }
         } catch (RuntimeException | JsonProcessingException e) {
@@ -107,6 +110,15 @@ class ServerConnectionChecker implements Runnable {
                         response.getStatusLine().getReasonPhrase());
                 logger.error(message);
             }
+            Request healthStatusRequest = new Request("GET", "/_cluster/health");
+            Response healthStatusResponse = restClient.performRequest(healthStatusRequest);
+            HttpEntity healthStatusEntity = healthStatusResponse.getEntity();
+            if ("200".equals(String.valueOf(healthStatusResponse.getStatusLine().getStatusCode()))) {
+                serverInformation.put("healthStatusResponseEntity", EntityUtils.toString(healthStatusEntity));
+            } else {
+                logger.error("Error retrieving search server health status: {}", healthStatusResponse.getStatusLine().getReasonPhrase());
+            }
+
         } catch (IOException e) {
             logger.error("searchServerNotRunning", e);
         }

@@ -44,6 +44,7 @@ public class IndexingService {
     String serverInformation;
     String serverDistribution;
     String serverVersion;
+    String serverHealth;
     long serverLastCheck;
     long serverCheckThreadId;
 
@@ -231,5 +232,9 @@ public class IndexingService {
 
     public String getServerVersion() {
         return serverVersion;
+    }
+
+    public String getServerHealth() {
+        return serverHealth;
     }
 }

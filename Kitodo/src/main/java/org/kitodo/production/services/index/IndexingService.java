@@ -78,6 +78,7 @@ public class IndexingService {
     /**
      * Returns the server information. This consists of the server service and
      * the version number as returned by the search server.
+     *
      * <p>
      * <!-- A thread to retrieve the server information is started when the
      * IndexingService is constructed. If the server information is still null,

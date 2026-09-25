@@ -20,6 +20,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.exception.DataException;
+import org.hibernate.search.engine.search.predicate.dsl.SearchPredicateFactory;
 import org.hibernate.search.engine.search.projection.SearchProjection;
 import org.hibernate.search.mapper.orm.Search;
 import org.hibernate.search.mapper.orm.massindexing.MassIndexer;
@@ -43,7 +44,6 @@ public class IndexingService {
     private static volatile IndexingService instance = null;
 
     String serverInformation;
-    String serverDistribution;
     String serverVersion;
     String serverHealth;
     long serverLastCheck;
@@ -78,7 +78,7 @@ public class IndexingService {
     /**
      * Returns the server information. This consists of the server service and
      * the version number as returned by the search server.
-     * 
+     * <p>
      * <!-- A thread to retrieve the server information is started when the
      * IndexingService is constructed. If the server information is still null,
      * the result of this thread is waited for. Otherwise, another thread is
@@ -222,7 +222,7 @@ public class IndexingService {
         try (Session ormSession = HibernateUtil.getSession()) {
             SearchSession searchSession = Search.session(ormSession);
             return searchSession.search(Process.class)
-                    .where(f -> f.matchAll())
+                    .where(SearchPredicateFactory::matchAll)
                     .fetchTotalHitCount();
         } catch (SearchException e) {
             logger.debug("Search index temporarily unavailable during indexing initialization/rebuild.", e);
@@ -235,6 +235,11 @@ public class IndexingService {
         return serverVersion;
     }
 
+    /**
+     * Determine and return health of search server.
+     *
+     * @return health of search server
+     */
     public String getServerHealth() {
         if (Objects.equals(serverHealth, "green")) {
             return SystemStatus.STATUS_HEALTHY;

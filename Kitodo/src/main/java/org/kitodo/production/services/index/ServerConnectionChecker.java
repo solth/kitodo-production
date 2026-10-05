@@ -63,6 +63,7 @@ class ServerConnectionChecker implements Runnable {
                 indexingService.serverCheckThreadId = currentThread().threadId();
                 if (indexingService.serverCheckThreadId == currentThread().threadId()) {
                     clearId = true;
+                    // TODO: re-evaluate this information when "Update" button is clicked in application!
                     Map<String, String> serverInformation = downloadServerInformation();
                     indexingService.serverInformation = serverInformation.get("logMessage");
                     JsonNode root = new ObjectMapper().readTree(serverInformation.get("responseEntity"));

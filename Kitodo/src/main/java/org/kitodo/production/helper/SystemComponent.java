@@ -20,7 +20,7 @@ public class SystemComponent {
     private String componentName;
     private String componentVersion = "N/A";
     private String componentHealth = "◯";
-    private String componentInformation = "N/A";
+    private String componentInformation;
     private boolean configured = true;
 
     public SystemComponent(String componentName) {

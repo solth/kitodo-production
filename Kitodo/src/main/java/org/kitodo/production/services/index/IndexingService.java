@@ -233,6 +233,7 @@ public class IndexingService {
     }
 
     public String getServerVersion() {
+        // TODO: re-determine server version; maybe stopped while Kitodo is running
         return serverVersion;
     }
 

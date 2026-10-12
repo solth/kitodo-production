@@ -191,17 +191,23 @@ public class HierarchyMigrationTaskIT {
                 throw new RuntimeException("Unable to rename metadata file");
             }
         }
-        boolean fileDeleted = new File("src/test/resources/metadata/2/meta_anchor.migrated").delete();
-        if (!fileDeleted) {
-            throw new RuntimeException("Unable to delete migrated metadata file");
+        File migratedAnchorFile = new File("src/test/resources/metadata/2/meta_anchor.migrated");
+        if (migratedAnchorFile.exists()) {
+            boolean fileDeleted = migratedAnchorFile.delete();
+            if (!fileDeleted) {
+                throw new RuntimeException("Unable to delete migrated metadata file");
+            }
         }
     }
 
-    private static void moveMetaFileAway(int recordNumber, String tempFileName) throws Exception {
+    private static void moveMetaFileAway(int recordNumber, String tempFileName) {
         File processHome = new File(ConfigCore.getKitodoDataDirectory(), Integer.toString(recordNumber));
-        boolean fileRenamed = new File(processHome, "meta.xml").renameTo(new File(processHome, tempFileName));
-        if (!fileRenamed) {
-            throw new RuntimeException("Unable to rename metadata file");
+        File fileToRename = new File(processHome, "meta.xml");
+        if (fileToRename.exists()) {
+            boolean fileRenamed = fileToRename.renameTo(new File(processHome, tempFileName));
+            if (!fileRenamed) {
+                throw new RuntimeException("Unable to rename metadata file");
+            }
         }
     }
 

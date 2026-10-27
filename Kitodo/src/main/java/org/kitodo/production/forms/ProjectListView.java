@@ -39,6 +39,8 @@ public class ProjectListView extends BaseListView {
 
     public static final String VIEW_PATH = MessageFormat.format(REDIRECT_PATH, "projects") + "&tab=projectTab";
     private static final Logger logger = LogManager.getLogger(ProjectListView.class);
+    private Map<Integer, Long> processCounts;
+    private boolean processCountsLoaded = false;
 
     /**
      * Initialize the list of displayed list columns.
@@ -104,6 +106,39 @@ public class ProjectListView extends BaseListView {
             .filter(entry ->  selectedColumns.stream().anyMatch(column -> entry.getValue().equals(column.getTitle())))
             .map(Map.Entry::getKey)
             .collect(Collectors.toSet());
+    }
+
+    /**
+     * Load the number of processes of all projects. Called via 'preRenderView'
+     * event before the components are rendered, so that error messages can be
+     * displayed. The numbers are only loaded once per view; changing the session
+     * client creates a new view and therefore triggers a reload.
+     */
+    public void loadProcessCounts() {
+        if (processCountsLoaded) {
+            return;
+        }
+        processCountsLoaded = true;
+        try {
+            processCounts = ServiceManager.getProjectService().countProcessesPerProject();
+        } catch (DAOException e) {
+            processCounts = null;
+            Helper.setErrorMessage(e);
+        }
+    }
+
+    /**
+     * Returns the number of processes associated with a project.
+     *
+     * @param projectId ID of project whose process count is returned
+     * @return the number of processes associated with the project, or
+     *         {@code null} if the numbers could not be determined
+     */
+    public Long getNumberOfProcesses(Integer projectId) {
+        if (processCounts == null) {
+            return null;
+        }
+        return processCounts.getOrDefault(projectId, 0L);
     }
 
 }

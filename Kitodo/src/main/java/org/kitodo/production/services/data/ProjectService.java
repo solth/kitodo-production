@@ -22,6 +22,8 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import jakarta.persistence.PersistenceException;
+
 import org.apache.commons.lang3.StringUtils;
 import org.kitodo.config.enums.KitodoConfigFile;
 import org.kitodo.data.database.beans.Client;
@@ -397,5 +399,24 @@ public class ProjectService extends BaseBeanService<Project, ProjectDAO> {
             ServiceManager.getTemplateService().save(template);
         }
         ServiceManager.getProjectService().remove(projectID);
+    }
+
+    /**
+     * Count processes of all projects in a single query.
+     *
+     * @return map of project IDs to the number of processes associated with the
+     *         respective project; projects without processes are not contained
+     * @throws DAOException when an error occurs while determining the numbers of processes
+     */
+    public Map<Integer, Long> countProcessesPerProject() throws DAOException {
+        try {
+            return dao.getProjectionByQuery(
+                    "SELECT process.project.id, COUNT(process) FROM Process AS process GROUP BY process.project.id",
+                    Collections.emptyMap())
+                .stream()
+                .collect(Collectors.toMap(row -> (Integer) row[0], row -> (Long) row[1]));
+        } catch (PersistenceException e) {
+            throw new DAOException(e);
+        }
     }
 }

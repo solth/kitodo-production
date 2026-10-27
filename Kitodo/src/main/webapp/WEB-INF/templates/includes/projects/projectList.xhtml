@@ -56,6 +56,11 @@
                           title="#{item.metsRightsOwner}"/>
         </p:column>
 
+        <p:column headerText="#{msgs['processes']}">
+            <h:outputText value="#{ProjectListView.getNumberOfProcesses(item.id)}"
+                          title="#{ProjectListView.getNumberOfProcesses(item.id)}"/>
+        </p:column>
+
         <p:column headerText="#{msgs.active}"
                   styleClass="checkboxColumn"
                   sortBy="#{item.active}"

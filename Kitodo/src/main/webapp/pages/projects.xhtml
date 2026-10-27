@@ -29,6 +29,7 @@
         <!--@elvariable id="sortOrder" type="java.lang.String"-->
         <f:viewParam name="sortOrder"/>
         <f:viewAction action="#{ProjectsTabView.setSortByFromTemplate(sortField, sortOrder)}" />
+        <f:event type="preRenderView" listener="#{ProjectListView.loadProcessCounts}" />
     </f:metadata>
 
     <ui:define name="contentHeader">

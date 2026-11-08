@@ -58,14 +58,27 @@ public abstract class SecurityAccess {
     }
 
     /**
-     * Check if the current user has a specified authority for a client.
+     * Check if the current user has a specified authority for the client of the current session.
      *
      * @param authorityTitle
      *            the authority title
      * @return true if the current user has the specified authority
      */
     public boolean hasAuthorityForClient(String authorityTitle) {
-        String clientAuthority = authorityTitle + "_" + CLIENT_IDENTIFIER + "_" + getClientId();
+        return hasAuthorityForClient(authorityTitle, getClientId());
+    }
+
+    /**
+     * Check if the current user has a specified authority for the client with the given client ID.
+     *
+     * @param authorityTitle
+     *            the authority title
+     * @param clientId
+     *            the ID of the client
+     * @return true if the current user has the specified authority
+     */
+    public boolean hasAuthorityForClient(String authorityTitle, int clientId) {
+        String clientAuthority = authorityTitle + "_" + CLIENT_IDENTIFIER + "_" + clientId;
         return hasAuthority(clientAuthority);
     }
 

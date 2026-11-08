@@ -39,6 +39,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.kitodo.config.xml.fileformats.FileFormat;
 import org.kitodo.config.xml.fileformats.FileFormatsConfig;
+import org.kitodo.data.database.beans.Client;
 import org.kitodo.data.database.beans.Folder;
 import org.kitodo.data.database.beans.ImportConfiguration;
 import org.kitodo.data.database.beans.LtpValidationConfiguration;
@@ -953,6 +954,16 @@ public class ProjectEditView extends BaseEditView {
             return Collections.emptyList();
         }
         return ServiceManager.getLtpValidationConfigurationService().listByMimeType(editingFolder.getMimeType());
+    }
+
+    /**
+     * Return clients to which the current user has access and the permission to add new projects to.
+     *
+     * @return list of clients
+     */
+    public List<Client> getAvailableClientsForProjectAssignment() {
+        // TODO: add test
+        return ServiceManager.getUserService().getClientsOfCurrentUserForProjectAssignment();
     }
 
 }

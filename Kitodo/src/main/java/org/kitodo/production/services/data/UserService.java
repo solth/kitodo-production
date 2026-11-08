@@ -555,6 +555,17 @@ public class UserService extends BaseBeanService<User, UserDAO> implements UserD
     }
 
     /**
+     * Retrieves the list of clients available to the currently authenticated user, sorted by name.
+     * The returned list is filtered
+     *
+     * @return list of clients
+     */
+    public List<Client> getClientsOfCurrentUserForProjectAssignment() {
+        return getAvailableClientsOfCurrentUserSortedByName().stream()
+                .filter(client -> ServiceManager.getSecurityAccessService().hasAuthorityForClient("addProject", client.getId())).toList();
+    }
+
+    /**
      * Retrieves the list of clients associated with the specified user. This includes
      * clients directly linked to the user and clients of the projects the user is
      * associated with, ensuring no duplicate clients are included in the list.

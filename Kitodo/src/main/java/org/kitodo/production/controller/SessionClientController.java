@@ -15,12 +15,14 @@ import java.util.List;
 import java.util.Objects;
 
 import jakarta.enterprise.context.RequestScoped;
+import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 import jakarta.inject.Named;
 import jakarta.servlet.http.HttpSession;
 
 import org.kitodo.data.database.beans.Client;
 import org.kitodo.data.database.beans.User;
+import org.kitodo.production.helper.Helper;
 import org.kitodo.production.services.ServiceManager;
 import org.primefaces.PrimeFaces;
 
@@ -31,7 +33,15 @@ import org.primefaces.PrimeFaces;
 @RequestScoped
 public class SessionClientController {
 
+    /**
+     * Key under which the "client changed" message is added to the FacesContext. Because it is not a global message
+     * (client id is not null), it is shown by the non-sticky growl "notifications" in the base template, but not by
+     * message components restricted to global messages via "globalOnly" (the sticky growl and the desktop messages).
+     */
+    public static final String CLIENT_CHANGED_MESSAGE_KEY = "clientChangedMessage";
+
     private static final String DESKTOP_PAGE = "/pages/desktop";
+
     private Client selectedClient;
 
     /**
@@ -146,6 +156,26 @@ public class SessionClientController {
             return DESKTOP_PAGE + "?faces-redirect=true";
         }
         return null;
+    }
+
+    /**
+     * Changes the session client from the top navigation menu. Sets the given client as new session client, redirects
+     * to the desktop page and shows a growl message on that page informing the user about the changed client. The
+     * message is kept in the flash scope so that it survives the redirect.
+     *
+     * @param sessionClient
+     *            The client object that is to be the new session client.
+     * @return outcome redirecting to the desktop page
+     */
+    public String changeSessionClient(Client sessionClient) {
+        String outcome = setSessionClient(sessionClient);
+        FacesContext context = FacesContext.getCurrentInstance();
+        if (Objects.nonNull(context) && Objects.nonNull(sessionClient)) {
+            context.getExternalContext().getFlash().setKeepMessages(true);
+            context.addMessage(CLIENT_CHANGED_MESSAGE_KEY, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                    Helper.getTranslation("clientChanged", sessionClient.getName()), null));
+        }
+        return outcome;
     }
 
     /**
